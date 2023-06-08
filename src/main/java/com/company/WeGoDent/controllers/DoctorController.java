@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class DoctorController {
 
     @Autowired
-    private static DoctorService doctorService;
+    private DoctorService doctorService;
 
     @PostMapping("/create")
+    @ResponseBody
     public Doctor createDoctor(@RequestBody DoctorUserForm doctorUserForm){
         return doctorService.createDoctor(doctorUserForm);
     }
