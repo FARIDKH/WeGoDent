@@ -2,6 +2,7 @@ package com.company.WeGoDent.services;
 
 
 import com.company.WeGoDent.forms.DoctorUserForm;
+import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
 import com.company.WeGoDent.models.Doctor;
 import com.company.WeGoDent.models.User;
@@ -29,7 +30,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User createPatientUser(UserForm userForm){
+
+    public User createPatientUser(PatientUserForm userForm){
         User user = new User();
         user.setEmail(userForm.email);
         user.setUserRole(UserType.PATIENT);
@@ -40,6 +42,9 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+
+
 
     public User createBloggerUser(UserForm userForm){
         User user = new User();
@@ -63,6 +68,31 @@ public class UserService {
         user.setPhoneNumber(userForm.phoneNumber);
 
         return userRepository.save(user);
+    }
+
+
+
+    public User updateUser(Long id,UserForm userForm){
+        if(userRepository.existsById(id)){
+            User user = userRepository.findById(id).get();
+            user.setPhoneNumber(userForm.phoneNumber);
+            user.setPassword(userForm.password);
+            user.setEmail(userForm.email);
+            user.setFirstName(userForm.firstName);
+            user.setLastName(userForm.lastName);
+
+            return user;
+        }
+        return null;
+    }
+
+
+    public Boolean deleteUser(Long id){
+        if(userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 
