@@ -8,12 +8,14 @@ import jakarta.persistence.*;
 public class Review {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
+
 
     private Integer rating;
 

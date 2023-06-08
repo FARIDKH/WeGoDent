@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 public class User {
     @jakarta.persistence.Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 
@@ -17,6 +18,7 @@ public class User {
     private String firstName;
 
     private String lastName;
+    @Column(unique = true)
 
     private String email;
 

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     public Long getId() {
@@ -40,4 +41,51 @@ public class Appointment {
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     private Review review;
 
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public LocalDateTime getAppointmentStart() {
+        return appointmentStart;
+    }
+
+    public void setAppointmentStart(LocalDateTime appointmentStart) {
+        this.appointmentStart = appointmentStart;
+    }
+
+    public LocalDateTime getAppointmentEnd() {
+        return appointmentEnd;
+    }
+
+    public void setAppointmentEnd(LocalDateTime appointmentEnd) {
+        this.appointmentEnd = appointmentEnd;
+    }
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
 }
