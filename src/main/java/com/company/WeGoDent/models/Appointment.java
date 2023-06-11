@@ -1,12 +1,13 @@
 package com.company.WeGoDent.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -28,15 +29,22 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
+    @JsonIgnore
     private Doctor doctor;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    @JsonIgnore
     private Patient patient;
 
     private LocalDateTime appointmentStart;
 
     private LocalDateTime appointmentEnd;
+
+
+    @OneToMany(mappedBy = "appointment")
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status; // Assuming an Enum 'Status' defined with 'SCHEDULED', 'CANCELLED', 'COMPLETED', 'APPROVED', 'REJECTED'

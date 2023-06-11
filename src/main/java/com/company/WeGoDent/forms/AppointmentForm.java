@@ -8,7 +8,7 @@ public class AppointmentForm {
 
     public LocalDateTime appointmentStart;
     public LocalDateTime appointmentEnd;
-    public AppointmentStatus appointmentStatus = AppointmentStatus.REQUESTED;
+    public AppointmentStatus appointmentStatus;
     public Long doctor_id;
     public Long patient_id;
 

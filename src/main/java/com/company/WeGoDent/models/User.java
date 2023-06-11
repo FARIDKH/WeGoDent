@@ -5,6 +5,9 @@ package com.company.WeGoDent.models;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -29,6 +32,10 @@ public class User {
 
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications = new ArrayList<>();
+
+
     public Long getId() {
         return id;
     }
@@ -36,6 +43,8 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
+
+
 
 
     public String getFirstName() {

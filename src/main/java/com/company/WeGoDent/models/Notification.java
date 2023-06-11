@@ -1,5 +1,6 @@
 package com.company.WeGoDent.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -20,12 +21,14 @@ public class Notification {
         this.id = id;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "appointment_id")
+    @JsonIgnore
     private Appointment appointment;
 
     private String message;
@@ -34,13 +37,6 @@ public class Notification {
 
     private Timestamp timeSent;
 
-    public User getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(User user_id) {
-        this.user_id = user_id;
-    }
 
     public Appointment getAppointment() {
         return appointment;

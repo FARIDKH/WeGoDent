@@ -22,6 +22,9 @@ public class DoctorService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ReviewService reviewService;
+
 
     public Doctor createDoctor(DoctorUserForm doctorForm){
         Doctor doctor = new Doctor();
@@ -103,6 +106,11 @@ public class DoctorService {
             return doctor.getAppointments();
         }
         return null;
+    }
+
+
+    public Double getDoctorRating(Long doctorId){
+        return reviewService.getDoctorsRating(doctorId);
     }
 
 

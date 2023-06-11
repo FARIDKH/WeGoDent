@@ -4,6 +4,7 @@ package com.company.WeGoDent.services;
 import com.company.WeGoDent.models.*;
 import com.company.WeGoDent.repositories.NotificationRepository;
 import com.company.WeGoDent.services.helpers.EmailService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,12 @@ public class NotificationService {
         User patient = appointment.getPatient().getPatientId();
         Doctor doctor = appointment.getDoctor();
 
-        emailService.sendAuthMessage(patient.getEmail(),
-                "WeGoDent.com | Patient Login Details", patient.getEmail(), patient.getPassword());
+        try {
+            emailService.sendAuthMessage(patient.getEmail(),
+                    "WeGoDent.com | Patient Login Details", patient.getEmail(), patient.getPassword());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
 
         emailService.sendAppointmentMessageToDoctor(doctor.getDoctorId().getEmail(),
@@ -54,12 +59,16 @@ public class NotificationService {
         User patient = appointment.getPatient().getPatientId();
         Doctor doctor = appointment.getDoctor();
 
-        emailService.sendAppointmentMessageToPatient(patient.getEmail(), "WeGoDent.com | CHANGE IN APPOINTMENT BY DOCTOR",
-                doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
-                patient.getFirstName() + " " + patient.getLastName(),
-        appointment.getAppointmentStart(),
-                doctor.getOfficeLocation(),
-        appointment.getStatus());
+        try {
+            emailService.sendAppointmentMessageToPatient(patient.getEmail(), "WeGoDent.com | CHANGE IN APPOINTMENT BY DOCTOR",
+                    doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
+                    patient.getFirstName() + " " + patient.getLastName(),
+            appointment.getAppointmentStart(),
+                    doctor.getOfficeLocation(),
+            appointment.getStatus());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
         notificationRepository.save(notification);
 

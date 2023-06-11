@@ -3,13 +3,11 @@ package com.company.WeGoDent.controllers;
 
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.TimeSlotForm;
-import com.company.WeGoDent.forms.UserForm;
 import com.company.WeGoDent.models.Appointment;
 import com.company.WeGoDent.models.Doctor;
 import com.company.WeGoDent.models.DoctorAvailability;
 import com.company.WeGoDent.services.DoctorAvailabilityService;
 import com.company.WeGoDent.services.DoctorService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +86,15 @@ public class DoctorController {
     @ResponseBody
     public ResponseEntity<List<DoctorAvailability>> listAvailability(@PathVariable Long id){
         return new ResponseEntity<>(doctorAvailabilityService.getAvailabilities(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/rating")
+    @ResponseBody
+    public ResponseEntity<Double> getDoctorRating(@PathVariable Long id){
+
+
+
+        return new ResponseEntity<>(doctorService.getDoctorRating(id),HttpStatus.OK);
     }
 
 }
