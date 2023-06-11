@@ -36,6 +36,8 @@ public class PatientService {
             throw new RuntimeException("User creation failed. Doctor cannot be created.");
         }
 
+        patientRepository.save(patient);
+
         return patient;
 
     }

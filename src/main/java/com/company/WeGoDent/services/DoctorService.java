@@ -36,6 +36,8 @@ public class DoctorService {
             throw new RuntimeException("User creation failed. Doctor cannot be created.");
         }
 
+
+
         return doctor;
 
     }
@@ -54,6 +56,8 @@ public class DoctorService {
         userForm.password = doctorForm.password;
         userService.updateUser(doctor.getDoctorId().getId(),userForm);
         getDoctorForm(doctorForm, doctor);
+
+
 
         return doctor;
     }

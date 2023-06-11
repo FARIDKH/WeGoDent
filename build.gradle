@@ -21,9 +21,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	implementation group: 'org.springframework.plugin', name: 'spring-plugin-core', version: '2.0.0.RELEASE'
+
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
