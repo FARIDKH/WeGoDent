@@ -12,4 +12,5 @@ ARG DEPENDENCY=/workspace/app/build/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","hello.Application"]
+ENV SPRING_PROFILES_ACTIVE=prod
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.company.WeGoDent.WeGoDentApplication"]
