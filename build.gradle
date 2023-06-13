@@ -12,6 +12,14 @@ repositories {
 	mavenCentral()
 }
 
+
+
+//docker {
+//	name "my-spring-boot-app:${version}"
+//	files tasks.bootJar.outputs
+//	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+//}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
