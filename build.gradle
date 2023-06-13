@@ -13,6 +13,26 @@ repositories {
 }
 
 
+apply plugin: 'com.palantir.docker'
+
+group = 'myorg'
+
+bootJar {
+	baseName = 'myapp'
+	version =  '0.1.0'
+}
+
+task unpack(type: Copy) {
+	dependsOn bootJar
+	from(zipTree(tasks.bootJar.outputs.files.singleFile))
+	into("build/dependency")
+}
+docker {
+	name "${project.group}/${bootJar.baseName}"
+	copySpec.from(tasks.unpack.outputs).into("dependency")
+	buildArgs(['DEPENDENCY': "dependency"])
+}
+
 
 //docker {
 //	name "my-spring-boot-app:${version}"
