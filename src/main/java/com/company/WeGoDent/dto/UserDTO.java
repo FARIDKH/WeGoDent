@@ -11,6 +11,8 @@ import lombok.Setter;
 import java.util.List;
 
 
+@Getter
+@Setter
 
 public class UserDTO {
 

@@ -23,7 +23,27 @@ public class GroupRoleDTO {
 
     private String description;
 
+    public UserType getCode() {
+        return code;
+    }
 
+    public void setCode(UserType code) {
+        this.code = code;
+    }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -29,50 +29,49 @@ import java.util.List;
 public class AccountController {
 
 
+    @Autowired
+    private UserService userService;
+    @Autowired
 
+    private  PasswordEncoder passwordEncoder;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TokenProvider tokenProvider;
-    @Autowired
+
     private  AuthenticationManager authenticationManager;
     @Autowired
 
-    private  UserService userService;
 
+    private  TokenProvider tokenProvider;
+
+    @Autowired
+    private  AppMapper mapper;
 
     @GetMapping("/user")
-    public ResponseEntity<SuccessResponse> getAllUsers(){
-        List<UserDTO> users = userService.getUsers().stream().map(AppMapper::copyUserEntityToDTO).toList();
-
+    public ResponseEntity<SuccessResponse> getAllUser() {
+        List<UserDTO> users = userService.getUsers().stream().map(mapper::copyUserEntityToDto).toList();
         return new ResponseEntity<>(new SuccessResponse(users, MessageFormat.format("{0} result found", users.size())), HttpStatus.OK);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<SuccessResponse> register(@Valid @RequestBody SignupDTO userDTO) {
+        var user = mapper.copyUserDtoToEntity(userDTO);
+        var encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
+
+        var newUser = userService.save(user);
+
+        return ResponseEntity.ok(new SuccessResponse(mapper.copyUserEntityToDto(newUser), "register Successfully"));
+    }
+
     @PostMapping("/authenticate")
-    public ResponseEntity<SuccessResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO){
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.username(),
-                loginDTO.password()
-        ));
+    public ResponseEntity<SuccessResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
+
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
 
         return ResponseEntity.ok(new SuccessResponse(jwt, "Login Successfully"));
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<SuccessResponse> register(@Valid @RequestBody SignupDTO userDTO) {
-
-        var user = AppMapper.copyUserDTOtoEntity(userDTO);
-        var encodePassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodePassword);
-
-        var newUser = userService.save(user);
-
-        return ResponseEntity.ok(new SuccessResponse(AppMapper.copyUserEntityToDTO(newUser), "register Successfully"));
-    }
-
 
 
 
