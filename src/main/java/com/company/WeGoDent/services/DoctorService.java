@@ -20,7 +20,7 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Autowired
     private ReviewService reviewService;
@@ -28,7 +28,7 @@ public class DoctorService {
 
     public Doctor createDoctor(DoctorUserForm doctorForm){
         Doctor doctor = new Doctor();
-        User user = userService.createDoctorUser(doctorForm);
+        User user = accountService.createDoctorUser(doctorForm);
 
         if(user != null){
             doctor.setDoctorId(user);
@@ -57,7 +57,7 @@ public class DoctorService {
         userForm.lastName = doctorForm.lastName;
         userForm.phoneNumber = doctorForm.phoneNumber;
         userForm.password = doctorForm.password;
-        userService.updateUser(doctor.getDoctorId().getId(),userForm);
+        accountService.updateUser(doctor.getDoctorId().getId(),userForm);
         getDoctorForm(doctorForm, doctor);
 
 
@@ -80,7 +80,7 @@ public class DoctorService {
         if(doctorRepository.existsById(doctorId)){
 
             Doctor doctor = doctorRepository.findById(doctorId).get();
-            userService.deleteUser(doctor.getDoctorId().getId()); // get relevant user and it's ID and delete user
+            accountService.deleteUser(doctor.getDoctorId().getId()); // get relevant user and it's ID and delete user
             doctorRepository.deleteById(doctorId);
 
             return true;
