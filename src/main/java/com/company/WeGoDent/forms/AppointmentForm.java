@@ -1,6 +1,6 @@
 package com.company.WeGoDent.forms;
 
-import com.company.WeGoDent.models.AppointmentStatus;
+import com.company.WeGoDent.enums.AppointmentStatus;
 
 import java.time.LocalDateTime;
 

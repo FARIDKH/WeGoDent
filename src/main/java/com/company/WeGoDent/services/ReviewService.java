@@ -2,7 +2,7 @@ package com.company.WeGoDent.services;
 
 
 import com.company.WeGoDent.forms.ReviewForm;
-import com.company.WeGoDent.models.Review;
+import com.company.WeGoDent.entity.Review;
 import com.company.WeGoDent.repositories.AppointmentRepository;
 import com.company.WeGoDent.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;

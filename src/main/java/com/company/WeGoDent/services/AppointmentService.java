@@ -1,14 +1,12 @@
 package com.company.WeGoDent.services;
 
 
+import com.company.WeGoDent.enums.AppointmentStatus;
 import com.company.WeGoDent.forms.AppointmentForm;
-import com.company.WeGoDent.models.*;
+import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Service
 public class AppointmentService {

@@ -2,15 +2,14 @@ package com.company.WeGoDent.services;
 
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.models.Appointment;
-import com.company.WeGoDent.models.Patient;
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.Appointment;
+import com.company.WeGoDent.entity.Patient;
+import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PatientService {
@@ -19,13 +18,13 @@ public class PatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     public Patient createPatient(PatientUserForm patientUserForm){
 
         Patient patient = new Patient();
 
-        User user = userService.createPatientUser(patientUserForm);
+        User user = accountService.createPatientUser(patientUserForm);
 
         if(user != null){
 
@@ -52,7 +51,7 @@ public class PatientService {
             userForm.lastName = patientUserForm.lastName;
             userForm.phoneNumber = patientUserForm.phoneNumber;
             userForm.password = patientUserForm.password;
-            userService.updateUser(patient.getPatientId().getId(),userForm);
+            accountService.updateUser(patient.getPatientId().getId(),userForm);
         }
         return null;
     }
@@ -60,7 +59,7 @@ public class PatientService {
     public Boolean deletePatient(Long id){
         if(patientRepository.existsById(id)){
             Patient patient = patientRepository.findById(id).get();
-            userService.deleteUser(patient.getPatientId().getId());
+            accountService.deleteUser(patient.getPatientId().getId());
             patientRepository.delete(patient);
             return true;
         }

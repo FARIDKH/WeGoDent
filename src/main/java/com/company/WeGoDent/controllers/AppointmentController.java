@@ -2,7 +2,7 @@ package com.company.WeGoDent.controllers;
 
 
 import com.company.WeGoDent.forms.AppointmentForm;
-import com.company.WeGoDent.models.Appointment;
+import com.company.WeGoDent.entity.Appointment;
 import com.company.WeGoDent.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

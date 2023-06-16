@@ -1,7 +1,7 @@
 package com.company.WeGoDent.services;
 
 
-import com.company.WeGoDent.models.*;
+import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.repositories.NotificationRepository;
 import com.company.WeGoDent.services.helpers.EmailService;
 import jakarta.mail.MessagingException;

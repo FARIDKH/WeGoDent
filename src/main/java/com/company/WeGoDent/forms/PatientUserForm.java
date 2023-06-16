@@ -1,6 +1,6 @@
 package com.company.WeGoDent.forms;
 
-import com.company.WeGoDent.models.UserType;
+import com.company.WeGoDent.enums.UserType;
 
 public class PatientUserForm {
 
