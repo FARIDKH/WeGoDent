@@ -25,7 +25,7 @@ public class TreatmentPhase {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "treatment_id")
+    @JoinColumn(name = "treatment_id")
     private Treatment treatment;
 
     private LocalDateTime startDate;
