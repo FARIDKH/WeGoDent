@@ -7,7 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity(name = "prescriptions")
+@Entity(name = "medicines")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
