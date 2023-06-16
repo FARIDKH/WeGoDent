@@ -1,6 +1,7 @@
 package com.company.WeGoDent.services;
 
 
+import com.company.WeGoDent.enums.AppointmentStatus;
 import com.company.WeGoDent.forms.AppointmentForm;
 import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.repositories.AppointmentRepository;

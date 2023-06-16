@@ -1,7 +1,7 @@
 package com.company.WeGoDent.dto;
 
 
-import com.company.WeGoDent.entity.UserType;
+import com.company.WeGoDent.enums.UserType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -6,7 +6,7 @@ import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
 import com.company.WeGoDent.entity.GroupRole;
 import com.company.WeGoDent.entity.User;
-import com.company.WeGoDent.entity.UserType;
+import com.company.WeGoDent.enums.UserType;
 import com.company.WeGoDent.repositories.GroupRoleRepository;
 import com.company.WeGoDent.repositories.UserRepository;
 import com.company.WeGoDent.security.services.UserService;

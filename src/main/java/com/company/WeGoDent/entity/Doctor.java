@@ -1,6 +1,7 @@
 package com.company.WeGoDent.entity;
 
 
+import com.company.WeGoDent.enums.DoctorType;
 import jakarta.persistence.*;
 
 import java.util.List;

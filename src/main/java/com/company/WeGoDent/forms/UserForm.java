@@ -1,6 +1,6 @@
 package com.company.WeGoDent.forms;
 
-import com.company.WeGoDent.entity.UserType;
+import com.company.WeGoDent.enums.UserType;
 
 public class UserForm {
 

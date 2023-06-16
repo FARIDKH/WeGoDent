@@ -1,7 +1,7 @@
 package com.company.WeGoDent.forms;
 
-import com.company.WeGoDent.entity.DoctorType;
-import com.company.WeGoDent.entity.UserType;
+import com.company.WeGoDent.enums.DoctorType;
+import com.company.WeGoDent.enums.UserType;
 
 public class DoctorUserForm {
 

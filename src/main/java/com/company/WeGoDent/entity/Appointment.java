@@ -1,6 +1,7 @@
 package com.company.WeGoDent.entity;
 
 
+import com.company.WeGoDent.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

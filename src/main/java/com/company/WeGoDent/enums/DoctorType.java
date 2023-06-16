@@ -1,4 +1,4 @@
-package com.company.WeGoDent.entity;
+package com.company.WeGoDent.enums;
 
 public enum DoctorType {
 
