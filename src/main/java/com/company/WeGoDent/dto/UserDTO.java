@@ -31,7 +31,15 @@ public class UserDTO {
     @NotBlank(message = "email is mandatory")
     private String email;
 
-    private List<GroupRoleDTO> roles;
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    private List<Long> roleIds;
 
     @Override
     public String toString() {
@@ -40,7 +48,6 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", roles=" + roles +
                 '}';
     }
 
@@ -76,11 +83,5 @@ public class UserDTO {
         this.email = email;
     }
 
-    public List<GroupRoleDTO> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<GroupRoleDTO> roles) {
-        this.roles = roles;
-    }
 }

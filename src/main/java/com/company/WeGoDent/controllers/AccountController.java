@@ -5,6 +5,7 @@ import com.company.WeGoDent.dto.LoginDTO;
 import com.company.WeGoDent.dto.SignupDTO;
 import com.company.WeGoDent.dto.SuccessResponse;
 import com.company.WeGoDent.dto.UserDTO;
+import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.mapper.UserMapper;
 import com.company.WeGoDent.security.TokenProvider;
 import com.company.WeGoDent.security.services.UserService;
@@ -52,15 +53,11 @@ public class AccountController {
 
     @PostMapping("/register")
     public ResponseEntity<SuccessResponse> register(@Valid @RequestBody SignupDTO userDTO) {
-        var user = mapper.copyUserDtoToEntity(userDTO);
-        var encodePassword = passwordEncoder.encode(user.getPassword());
+        User user = userService.createUserFromDTO(userDTO);
+        String encodePassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encodePassword);
-
-        System.out.println(userDTO.toString());
-
-        var newUser = userService.save(user);
-
-        return ResponseEntity.ok(new SuccessResponse(mapper.copyUserEntityToDto(newUser), "register Successfully"));
+        User newUser = userService.save(user);
+        return ResponseEntity.ok(new SuccessResponse(mapper.copyUserEntityToDto(newUser), "Registered successfully"));
     }
 
     @PostMapping("/authenticate")

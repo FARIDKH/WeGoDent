@@ -2,8 +2,12 @@ package com.company.WeGoDent.security.services;
 
 
 
+import com.company.WeGoDent.dto.UserDTO;
+import com.company.WeGoDent.entity.GroupRole;
 import com.company.WeGoDent.exceptions.DuplicateException.DuplicateException;
 import com.company.WeGoDent.entity.User;
+import com.company.WeGoDent.mapper.UserMapper;
+import com.company.WeGoDent.repositories.GroupRoleRepository;
 import com.company.WeGoDent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service(value = "userService")
 @RequiredArgsConstructor
@@ -24,6 +29,14 @@ public class UserDetailsServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupRoleRepository groupRoleRepository;
+
+    @Autowired
+    private UserMapper userMapper;
+
+
     private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
     /**
@@ -78,6 +91,18 @@ public class UserDetailsServiceImpl implements UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User createUserFromDTO(UserDTO dto) {
+        User user = userMapper.copyUserDtoToEntity(dto);
+        List<GroupRole> roles = dto.getRoleIds().stream()
+                .map(groupRoleRepository::findById) // Assuming that RoleRepository::findById returns Optional<GroupRole>
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+        user.setRoles(roles);
+        return user;
     }
 
     /**
