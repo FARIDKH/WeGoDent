@@ -2,16 +2,15 @@ package com.company.WeGoDent.mapper;
 
 import com.company.WeGoDent.dto.GroupRoleDTO;
 import com.company.WeGoDent.dto.UserDTO;
-import com.company.WeGoDent.models.GroupRole;
-import com.company.WeGoDent.models.User;
-import lombok.experimental.UtilityClass;
+import com.company.WeGoDent.entity.GroupRole;
+import com.company.WeGoDent.entity.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-public class AppMapper {
+public class UserMapper {
 
     public UserDTO copyUserEntityToDto(User userEntity) {
         var userDTO = new UserDTO();

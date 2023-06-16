@@ -1,4 +1,4 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;

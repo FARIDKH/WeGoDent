@@ -33,6 +33,17 @@ public class UserDTO {
 
     private List<GroupRoleDTO> roles;
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
     public String getUsername() {
         return username;
     }

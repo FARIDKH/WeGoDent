@@ -1,4 +1,4 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 
 
@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(name = "role_user", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id") })

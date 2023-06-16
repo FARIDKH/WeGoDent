@@ -3,9 +3,9 @@ package com.company.WeGoDent.services;
 
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.models.Appointment;
-import com.company.WeGoDent.models.Doctor;
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.Appointment;
+import com.company.WeGoDent.entity.Doctor;
+import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

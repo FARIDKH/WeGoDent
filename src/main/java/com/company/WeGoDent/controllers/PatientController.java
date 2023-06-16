@@ -2,10 +2,8 @@ package com.company.WeGoDent.controllers;
 
 
 import com.company.WeGoDent.forms.PatientUserForm;
-import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.models.Appointment;
-import com.company.WeGoDent.models.Patient;
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.Appointment;
+import com.company.WeGoDent.entity.Patient;
 import com.company.WeGoDent.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

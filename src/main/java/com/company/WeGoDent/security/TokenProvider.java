@@ -1,7 +1,7 @@
 package com.company.WeGoDent.security;
 
 
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.User;
 import dev.paseto.jpaseto.*;
 import dev.paseto.jpaseto.lang.Keys;
 import lombok.extern.slf4j.Slf4j;

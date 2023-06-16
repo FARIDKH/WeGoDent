@@ -1,11 +1,8 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "doctor_availabilities")

@@ -2,7 +2,7 @@ package com.company.WeGoDent.controllers;
 
 
 import com.company.WeGoDent.forms.ReviewForm;
-import com.company.WeGoDent.models.Review;
+import com.company.WeGoDent.entity.Review;
 import com.company.WeGoDent.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

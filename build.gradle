@@ -43,6 +43,10 @@ dependencies {
 	implementation 'dev.paseto:jpaseto-jackson:0.7.0'
 	implementation 'dev.paseto:jpaseto-sodium:0.7.0'
 
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final' // MapStruct
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final' // MapStruct processor
+
+
 }
 
 //tasks.named('test') {

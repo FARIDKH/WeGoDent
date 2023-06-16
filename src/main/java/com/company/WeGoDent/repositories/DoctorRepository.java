@@ -1,6 +1,6 @@
 package com.company.WeGoDent.repositories;
 
-import com.company.WeGoDent.models.Doctor;
+import com.company.WeGoDent.entity.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -3,7 +3,7 @@ package com.company.WeGoDent.security.services;
 
 
 import com.company.WeGoDent.exceptions.DuplicateException.DuplicateException;
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

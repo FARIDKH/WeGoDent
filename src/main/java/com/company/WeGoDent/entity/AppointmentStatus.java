@@ -1,4 +1,4 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 public enum AppointmentStatus {
 

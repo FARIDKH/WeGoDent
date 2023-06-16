@@ -1,10 +1,9 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

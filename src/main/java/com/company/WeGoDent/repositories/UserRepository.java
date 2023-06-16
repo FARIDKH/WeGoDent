@@ -1,6 +1,6 @@
 package com.company.WeGoDent.repositories;
 
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

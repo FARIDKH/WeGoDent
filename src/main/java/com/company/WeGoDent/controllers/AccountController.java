@@ -5,7 +5,7 @@ import com.company.WeGoDent.dto.LoginDTO;
 import com.company.WeGoDent.dto.SignupDTO;
 import com.company.WeGoDent.dto.SuccessResponse;
 import com.company.WeGoDent.dto.UserDTO;
-import com.company.WeGoDent.mapper.AppMapper;
+import com.company.WeGoDent.mapper.UserMapper;
 import com.company.WeGoDent.security.TokenProvider;
 import com.company.WeGoDent.security.services.UserService;
 import jakarta.validation.Valid;
@@ -39,11 +39,10 @@ public class AccountController {
     private  AuthenticationManager authenticationManager;
     @Autowired
 
-
     private  TokenProvider tokenProvider;
 
     @Autowired
-    private  AppMapper mapper;
+    private UserMapper mapper;
 
     @GetMapping("/user")
     public ResponseEntity<SuccessResponse> getAllUser() {
@@ -56,6 +55,8 @@ public class AccountController {
         var user = mapper.copyUserDtoToEntity(userDTO);
         var encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
+
+        System.out.println(userDTO.toString());
 
         var newUser = userService.save(user);
 

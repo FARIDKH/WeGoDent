@@ -1,4 +1,4 @@
-package com.company.WeGoDent.models;
+package com.company.WeGoDent.entity;
 
 import jakarta.persistence.*;
 
@@ -19,8 +19,21 @@ public class BlogCategory {
     @ManyToMany(mappedBy = "categories")
     private List<BlogPost> blogPosts;
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public List<BlogPost> getBlogPosts() {
+        return blogPosts;
+    }
+
+    public void setBlogPosts(List<BlogPost> blogPosts) {
+        this.blogPosts = blogPosts;
+    }
 
     public Long getId() {
         return id;

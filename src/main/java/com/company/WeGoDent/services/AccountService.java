@@ -4,9 +4,9 @@ package com.company.WeGoDent.services;
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.models.GroupRole;
-import com.company.WeGoDent.models.User;
-import com.company.WeGoDent.models.UserType;
+import com.company.WeGoDent.entity.GroupRole;
+import com.company.WeGoDent.entity.User;
+import com.company.WeGoDent.entity.UserType;
 import com.company.WeGoDent.repositories.GroupRoleRepository;
 import com.company.WeGoDent.repositories.UserRepository;
 import com.company.WeGoDent.security.services.UserService;
@@ -32,6 +32,14 @@ public class AccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+    public User getUserById(Long id){
+        if(userRepository.existsById(id)){
+            return userRepository.getReferenceById(id);
+        }
+        return null;
+    }
 
     public User createDoctorUser(DoctorUserForm userForm){
         User user = new User();
@@ -80,8 +88,7 @@ public class AccountService {
         int number = random.nextInt(90000000) + 10000000;
         String text = username + number;
 
-        System.out.println(text);
-        System.out.println(patientRole);
+
 
         user.setUsername(text);
 
@@ -89,7 +96,6 @@ public class AccountService {
 
         user.setLastName(userForm.lastName);
         user.setFirstName(userForm.firstName);
-        user.setPassword(this.generateRandomPassword());
         user.setPhoneNumber(userForm.phoneNumber);
 
         return userService.save(user);
@@ -98,28 +104,62 @@ public class AccountService {
 
 
 
-    public User createBloggerUser(UserForm userForm){
+    public User createBloggerUser(User userForm){
         User user = new User();
-        user.setEmail(userForm.email);
+        user.setEmail(userForm.getEmail());
 
-        user.setLastName(userForm.lastName);
-        user.setFirstName(userForm.firstName);
-        user.setPassword(this.generateRandomPassword());
-        user.setPhoneNumber(userForm.phoneNumber);
+        GroupRole patientRole = groupRoleRepository.findByCode(UserType.BLOGGER);
+        List<GroupRole> groupRoleList = new ArrayList<>();
+        groupRoleList.add(patientRole);
+        user.setRoles(groupRoleList);
 
-        return userRepository.save(user);
+        String pwd = "changeYourPasswordBlogger2002!";
+
+        String username = userForm.getFirstName() + userForm.getLastName();
+        Random random = new Random();
+        int number = random.nextInt(90000000) + 10000000;
+        String text = username + number;
+
+
+
+        user.setUsername(text);
+
+        user.setPassword(passwordEncoder.encode(pwd));
+
+        user.setLastName(userForm.getFirstName());
+        user.setFirstName(userForm.getLastName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+
+        return userService.save(user);
     }
 
     public User createAdminUser(UserForm userForm){
         User user = new User();
         user.setEmail(userForm.email);
 
+        GroupRole patientRole = groupRoleRepository.findByCode(UserType.ADMIN);
+        List<GroupRole> groupRoleList = new ArrayList<>();
+        groupRoleList.add(patientRole);
+        user.setRoles(groupRoleList);
+
+        String pwd = "changeYourPasswordADMIN2002!";
+
+        String username = userForm.firstName + userForm.lastName;
+        Random random = new Random();
+        int number = random.nextInt(90000000) + 10000000;
+        String text = username + number;
+
+
+
+        user.setUsername(text);
+
+        user.setPassword(passwordEncoder.encode(pwd));
+
         user.setLastName(userForm.lastName);
         user.setFirstName(userForm.firstName);
-        user.setPassword(this.generateRandomPassword());
         user.setPhoneNumber(userForm.phoneNumber);
 
-        return userRepository.save(user);
+        return userService.save(user);
     }
 
 

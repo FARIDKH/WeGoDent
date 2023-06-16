@@ -1,7 +1,7 @@
 package com.company.WeGoDent.repositories;
 
 
-import com.company.WeGoDent.models.Notification;
+import com.company.WeGoDent.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.company.WeGoDent.security.services;
 
-import com.company.WeGoDent.models.User;
+import com.company.WeGoDent.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

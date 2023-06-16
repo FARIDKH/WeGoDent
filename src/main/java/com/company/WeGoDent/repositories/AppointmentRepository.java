@@ -1,6 +1,6 @@
 package com.company.WeGoDent.repositories;
 
-import com.company.WeGoDent.models.Appointment;
+import com.company.WeGoDent.entity.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

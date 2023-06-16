@@ -3,9 +3,9 @@ package com.company.WeGoDent.controllers;
 
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.TimeSlotForm;
-import com.company.WeGoDent.models.Appointment;
-import com.company.WeGoDent.models.Doctor;
-import com.company.WeGoDent.models.DoctorAvailability;
+import com.company.WeGoDent.entity.Appointment;
+import com.company.WeGoDent.entity.Doctor;
+import com.company.WeGoDent.entity.DoctorAvailability;
 import com.company.WeGoDent.services.DoctorAvailabilityService;
 import com.company.WeGoDent.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;

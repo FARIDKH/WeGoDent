@@ -1,7 +1,7 @@
 package com.company.WeGoDent.services;
 
 import com.company.WeGoDent.forms.TimeSlotForm;
-import com.company.WeGoDent.models.DoctorAvailability;
+import com.company.WeGoDent.entity.DoctorAvailability;
 import com.company.WeGoDent.repositories.DoctorAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
