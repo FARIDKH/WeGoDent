@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "treatments")
@@ -24,7 +25,15 @@ public class Treatment {
     private Long cost;
 
     @OneToMany(mappedBy = "treatment", cascade = CascadeType.ALL)
-    private List<TreatmentPhase> treatmentPhaseList;
+    private List<TreatmentPhase> treatmentPhaseList = new ArrayList<>();
+
+    public List<TreatmentPhase> getTreatmentPhaseList() {
+        return treatmentPhaseList;
+    }
+
+    public void setTreatmentPhaseList(List<TreatmentPhase> treatmentPhaseList) {
+        this.treatmentPhaseList = treatmentPhaseList;
+    }
 
     public String getName() {
         return name;
