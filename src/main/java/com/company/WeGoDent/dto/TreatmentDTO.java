@@ -1,12 +1,18 @@
 package com.company.WeGoDent.dto;
 
 
+import com.company.WeGoDent.entity.TreatmentPhase;
+
+import java.util.List;
+
 public class TreatmentDTO {
 
     Long id;
     String name;
     String description;
     Long cost;
+
+    List<TreatmentPhase> treatmentPhaseList;
 
     public String getName() {
         return name;

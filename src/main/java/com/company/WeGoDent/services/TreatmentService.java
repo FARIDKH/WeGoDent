@@ -2,9 +2,12 @@ package com.company.WeGoDent.services;
 
 
 import com.company.WeGoDent.entity.Treatment;
+import com.company.WeGoDent.entity.TreatmentPhase;
 import com.company.WeGoDent.repositories.TreatmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TreatmentService {
@@ -12,13 +15,23 @@ public class TreatmentService {
     @Autowired
     private TreatmentRepository treatmentRepository;
 
+    public Treatment getById(Long id){
+        if(!treatmentRepository.existsById(id)) return null;
+        return treatmentRepository.getReferenceById(id);
+    }
+
+    public List<TreatmentPhase> getTreatmentPhasesOfTreatmentBy(Long id){
+        if(!treatmentRepository.existsById(id)) return null;
+        Treatment treatment = treatmentRepository.getReferenceById(id);
+        return treatment.getTreatmentPhaseList();
+    }
+
     public Treatment createTreatment(Treatment treatment){
         return treatmentRepository.save(treatment);
     }
 
-    public Treatment updateTreatment(Long id,Treatment treatment){
-        if(!treatmentRepository.existsById(id)) return  null; // guard statement
-        Treatment foundTreatment = treatmentRepository.getReferenceById(id);
+    public Treatment updateTreatment(Treatment treatment){
+        Treatment foundTreatment = treatmentRepository.getReferenceById(treatment.getId());
 
         foundTreatment.setCost(treatment.getCost());
         foundTreatment.setTreatmentPhaseList(treatment.getTreatmentPhaseList());
@@ -35,5 +48,8 @@ public class TreatmentService {
         }
         return false;
     }
+
+
+
 
 }

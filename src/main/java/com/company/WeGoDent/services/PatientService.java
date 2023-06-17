@@ -1,5 +1,6 @@
 package com.company.WeGoDent.services;
 
+import com.company.WeGoDent.entity.Treatment;
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
 import com.company.WeGoDent.entity.Appointment;
@@ -16,6 +17,9 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+
+
 
     @Autowired
     private AccountService accountService;
@@ -79,6 +83,10 @@ public class PatientService {
             Patient patient = patientRepository.findById(patientId).get();
             return patient.getAppointments();
         }
+        return null;
+    }
+
+    public List<Treatment> listTreatments(Long patientId){
         return null;
     }
 
