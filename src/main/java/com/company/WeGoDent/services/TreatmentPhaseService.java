@@ -1,6 +1,7 @@
 package com.company.WeGoDent.services;
 
 import com.company.WeGoDent.entity.TreatmentPhase;
+import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
 import com.company.WeGoDent.repositories.TreatmentPhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class TreatmentPhaseService {
     }
 
     public TreatmentPhase findById(Long id) {
-        if(!treatmentPhaseRepository.existsById(id)) return null;
-        return treatmentPhaseRepository.getReferenceById(id);
+        return treatmentPhaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Treatment phase not found with id " + id));
+
     }
 }
