@@ -42,7 +42,7 @@ public class NotificationService {
                 doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
                 patient.getFirstName() + " " + patient.getLastName(),
                 appointment.getAppointmentStart(),
-                doctor.getOfficeLocation()
+                doctor.getOfficeLocation().toText()
                 );
 
         notificationRepository.save(notification);
@@ -64,7 +64,7 @@ public class NotificationService {
                     doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
                     patient.getFirstName() + " " + patient.getLastName(),
             appointment.getAppointmentStart(),
-                    doctor.getOfficeLocation(),
+                    doctor.getOfficeLocation().toString(),
             appointment.getStatus());
         } catch (MessagingException e) {
             throw new RuntimeException(e);

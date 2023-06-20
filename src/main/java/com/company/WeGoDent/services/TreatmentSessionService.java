@@ -8,11 +8,27 @@ import com.company.WeGoDent.repositories.TreatmentSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TreatmentSessionService {
 
     @Autowired
     private TreatmentSessionRepository treatmentSessionRepository;
+
+
+    public List<TreatmentSession> findByPatientId(Long patientId) {
+        return treatmentSessionRepository.findByPatientId(patientId);
+    }
+
+    public List<TreatmentSession> findAll() {
+        return treatmentSessionRepository.findAll();
+    }
+
+
+    public List<TreatmentSession> findByTreatmentName(String treatmentName) {
+        return treatmentSessionRepository.findByTreatmentName(treatmentName);
+    }
 
 
     public TreatmentSession createTreatmentSession(Appointment appointment, TreatmentPhase treatmentPhase){

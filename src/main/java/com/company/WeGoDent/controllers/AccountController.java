@@ -1,9 +1,9 @@
 package com.company.WeGoDent.controllers;
 
 
-import com.company.WeGoDent.dto.LoginDTO;
+import com.company.WeGoDent.records.LoginDTO;
 import com.company.WeGoDent.dto.SignupDTO;
-import com.company.WeGoDent.dto.SuccessResponse;
+import com.company.WeGoDent.records.SuccessResponse;
 import com.company.WeGoDent.dto.UserDTO;
 import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.mapper.UserMapper;

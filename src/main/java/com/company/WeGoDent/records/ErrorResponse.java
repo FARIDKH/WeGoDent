@@ -1,4 +1,4 @@
-package com.company.WeGoDent.dto;
+package com.company.WeGoDent.records;
 import java.time.Instant;
 
 public record ErrorResponse(

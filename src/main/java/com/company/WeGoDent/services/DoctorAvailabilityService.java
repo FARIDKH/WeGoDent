@@ -1,11 +1,13 @@
 package com.company.WeGoDent.services;
 
+import com.company.WeGoDent.entity.Doctor;
 import com.company.WeGoDent.forms.TimeSlotForm;
 import com.company.WeGoDent.entity.DoctorAvailability;
 import com.company.WeGoDent.repositories.DoctorAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,6 +31,8 @@ public class DoctorAvailabilityService {
 
         return doctorAvailability;
     }
+
+
 
     public void updateAvailability(TimeSlotForm timeSlotForm) {
         // Fetch all availabilities of the doctor that intersect with the new time slot

@@ -3,6 +3,7 @@ package com.company.WeGoDent.entity;
 
 import com.company.WeGoDent.enums.DoctorType;
 import jakarta.persistence.*;
+import org.locationtech.jts.geom.Point;
 
 import java.util.List;
 
@@ -35,13 +36,14 @@ public class Doctor {
 
     private DoctorType doctorType;
 
-    private String officeLocation;
+    @Column(columnDefinition = "geometry(Point,4326)")
+    private Point officeLocation;
 
-    public String getOfficeLocation() {
+    public Point getOfficeLocation() {
         return officeLocation;
     }
 
-    public void setOfficeLocation(String officeLocation) {
+    public void setOfficeLocation(Point officeLocation) {
         this.officeLocation = officeLocation;
     }
 

@@ -2,6 +2,7 @@ package com.company.WeGoDent.forms;
 
 import com.company.WeGoDent.enums.DoctorType;
 import com.company.WeGoDent.enums.UserType;
+import org.locationtech.jts.geom.Point;
 
 public class DoctorUserForm {
 
