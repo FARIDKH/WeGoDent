@@ -2,13 +2,14 @@ package com.company.WeGoDent.entity;
 
 
 import com.company.WeGoDent.enums.DoctorType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.locationtech.jts.geom.Point;
 
 import java.util.List;
 
-@Entity
-@Table(name = "doctors")
+@Entity(name = "doctors")
+@Table
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,9 +35,12 @@ public class Doctor {
 
     private Double hourlyRate;
 
+
+    @Enumerated(EnumType.ORDINAL)
     private DoctorType doctorType;
 
     @Column(columnDefinition = "geometry(Point,4326)")
+    @JsonIgnore
     private Point officeLocation;
 
     public Point getOfficeLocation() {

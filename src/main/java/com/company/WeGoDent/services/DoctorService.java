@@ -54,13 +54,19 @@ public class DoctorService {
     public List<Doctor> retrieveDoctorsByLocationAndType(DoctorType doctorType,
                                                          String officeLocation){
 
-        Point location = geocodingService.getCoordinates(officeLocation);
-        GeoLocationInformation info = geocodingService.getLongAndLat(officeLocation);
+        GeoLocationInformation info = geocodingService.getLatLongObject(officeLocation);
 
-        List<Doctor> doctorList = doctorRepository.findNearby(doctorType, info.longitude(), info.latitude(), 20);
+        System.out.print(info.toString());
+        System.out.println(doctorType);
+        System.out.println(officeLocation);
+
+
+        List<Doctor> doctorList = doctorRepository.findNearby(doctorType, info.getLongitude(), info.getLatitude(), 20);
 
         return doctorList;
     }
+
+
 
 
 
@@ -90,7 +96,7 @@ public class DoctorService {
         doctor.setHourlyRate(doctorForm.hourly_rate);
         doctor.setLanguage(doctorForm.language);
         doctor.setOfficeLocation(
-                geocodingService.getCoordinates(doctorForm.office_location)
+                geocodingService.getPointObject(doctorForm.office_location)
         );
         doctor.setDoctorType(doctorForm.doctorType);
         doctorRepository.save(doctor);

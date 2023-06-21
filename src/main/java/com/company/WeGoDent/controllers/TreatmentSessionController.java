@@ -23,20 +23,6 @@ public class TreatmentSessionController {
     @Autowired
     private TreatmentSessionMapper treatmentSessionMapper;
 
-    @GetMapping
-    public ResponseEntity<List<TreatmentSessionDTO>> getTreatmentSessions(@RequestParam(required = false) Long patientId) {
-        List<TreatmentSession> treatmentSessions;
-        if (patientId != null) {
-            treatmentSessions = treatmentSessionService.findByPatientId(patientId);
-        } else {
-            treatmentSessions = treatmentSessionService.findAll();
-        }
-
-        if (treatmentSessions.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(treatmentSessionMapper.toDto(treatmentSessions), HttpStatus.OK);
-    }
 
     @GetMapping
     public ResponseEntity<List<TreatmentSession>> getTreatmentSessions(@RequestParam(required = false) Long patientId,

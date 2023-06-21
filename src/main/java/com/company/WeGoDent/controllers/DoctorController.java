@@ -1,6 +1,7 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.enums.DoctorType;
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.TimeSlotForm;
 import com.company.WeGoDent.entity.Appointment;
@@ -25,6 +26,15 @@ public class DoctorController {
 
     @Autowired
     private DoctorAvailabilityService doctorAvailabilityService;
+
+
+    @GetMapping
+    public List<Doctor> retrieveDoctorsByLocationAndType(
+            @RequestParam("doctorType") DoctorType doctorType,
+            @RequestParam("officeLocation") String officeLocation) {
+
+        return doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation);
+    }
 
     @PostMapping("/create")
     @ResponseBody

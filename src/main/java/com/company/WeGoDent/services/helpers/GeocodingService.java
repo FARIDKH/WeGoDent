@@ -2,10 +2,12 @@ package com.company.WeGoDent.services.helpers;
 
 
 import com.company.WeGoDent.records.GeoLocationInformation;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.company.WeGoDent.records.Geometry;
+import com.company.WeGoDent.records.OpenCageResponse;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,44 +19,58 @@ import java.util.Map;
 public class GeocodingService {
 
     private static final String GEOCODE_URL = "https://api.opencagedata.com/geocode/v1/json?q={address}&key={apiKey}";
-    public Point getCoordinates(String address) {
+    private final GeometryFactory geometryFactory = new GeometryFactory();
+
+
+
+
+    public Point getPointObject(String address) {
         RestTemplate restTemplate = new RestTemplate();
+
         Map<String, String> params = new HashMap<>();
         params.put("address", address);
-        params.put("apiKey", "your_api_key_here");
-        String response = restTemplate.getForObject(GEOCODE_URL, String.class, params);
+        params.put("apiKey", "20ffe345c07549bc90d95f258a6a1b32");
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ResponseEntity<OpenCageResponse> response = restTemplate.getForEntity(GEOCODE_URL, OpenCageResponse.class, params);
 
 
-        // Assuming you have parsed the JSON and have the latitude and longitude
-        org.locationtech.jts.geom.Point location = null;
-        try {
-            GeoLocationInformation locInfo = objectMapper.readValue(response, GeoLocationInformation.class);
-            location = new GeometryFactory().createPoint(new Coordinate(locInfo.longitude(), locInfo.latitude()));
-        } catch (Exception e){
-            e.printStackTrace();
+
+        if (response.getBody() != null && !response.getBody().getResults().isEmpty()) {
+            Geometry geometry = response.getBody().getResults().get(0).getGeometry();
+
+            System.out.println(
+
+                    geometryFactory.createPoint(new Coordinate(geometry.getLng(), geometry.getLat()))
+
+            );
+
+            return geometryFactory.createPoint(new Coordinate(geometry.getLng(), geometry.getLat()));
+        } else {
+            return null;
         }
-        return location;
+
+
     }
 
-    public GeoLocationInformation getLongAndLat(String address){
+
+    public GeoLocationInformation getLatLongObject(String query) {
         RestTemplate restTemplate = new RestTemplate();
+
         Map<String, String> params = new HashMap<>();
-        params.put("address", address);
-        params.put("apiKey", "your_api_key_here");
-        String response = restTemplate.getForObject(GEOCODE_URL, String.class, params);
+        params.put("address", query);
+        params.put("apiKey", "20ffe345c07549bc90d95f258a6a1b32");
 
-        ObjectMapper objectMapper = new ObjectMapper();
-
-
-        GeoLocationInformation locInfo = null;
-        try {
-            locInfo = objectMapper.readValue(response, GeoLocationInformation.class);
-        } catch (Exception e){
-            e.printStackTrace();
+        ResponseEntity<OpenCageResponse> response = restTemplate.getForEntity(GEOCODE_URL, OpenCageResponse.class, params);
+        System.out.println(response.toString());
+        if (response.getBody() != null && !response.getBody().getResults().isEmpty()) {
+            Geometry geometry = response.getBody().getResults().get(0).getGeometry();
+            GeoLocationInformation geoInfo = new GeoLocationInformation();
+            geoInfo.setLatitude(geometry.getLat());
+            geoInfo.setLongitude(geometry.getLng());
+            return geoInfo;
+        } else {
+            return null;
         }
-        return locInfo;
     }
 
 
