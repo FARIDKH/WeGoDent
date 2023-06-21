@@ -13,9 +13,8 @@ import java.util.List;
 @Repository
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-    @Query(value = "SELECT * FROM doctors d WHERE d.doctor_type = :type AND ST_DWithin(d.office_location::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, :distance)", nativeQuery = true)
-    List<Doctor> findNearby(@Param("type") DoctorType type, @Param("longitude") double longitude, @Param("latitude") double latitude, @Param("distance") double distance);
 
-
+    @Query(value = "SELECT * FROM doctors d WHERE d.doctor_type = :type AND ST_DWithin(geography(d.office_location), geography(ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)), :distance * 1000)", nativeQuery = true)
+    List<Doctor> findNearby(@Param("type") int type, @Param("longitude") double longitude, @Param("latitude") double latitude, @Param("distance") double distance);
 }
 

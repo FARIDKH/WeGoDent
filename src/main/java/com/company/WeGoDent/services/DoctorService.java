@@ -61,7 +61,7 @@ public class DoctorService {
         System.out.println(officeLocation);
 
 
-        List<Doctor> doctorList = doctorRepository.findNearby(doctorType, info.getLongitude(), info.getLatitude(), 20);
+        List<Doctor> doctorList = doctorRepository.findNearby(doctorType.ordinal(), info.getLongitude(), info.getLatitude(), 20);
 
         return doctorList;
     }

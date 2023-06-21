@@ -39,7 +39,7 @@ public class Doctor {
     @Enumerated(EnumType.ORDINAL)
     private DoctorType doctorType;
 
-    @Column(columnDefinition = "geometry(Point,4326)")
+    @Column(columnDefinition = "geography(Point,4326)")
     @JsonIgnore
     private Point officeLocation;
 

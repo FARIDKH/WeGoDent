@@ -24,7 +24,6 @@ dependencies {
 
 
 	implementation 'org.postgresql:postgresql:42.5.4'
-//	implementation 'org.postgis:postgis-jdbc:2.5.2'
 	implementation 'org.hibernate:hibernate-spatial:6.1.7.Final'
 
 	implementation 'org.projectlombok:lombok:1.18.26'
