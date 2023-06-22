@@ -25,7 +25,7 @@ public class TreatmentSessionController {
 
 
     @GetMapping
-    public ResponseEntity<List<TreatmentSession>> getTreatmentSessions(@RequestParam(required = false) Long patientId,
+    public ResponseEntity<List<TreatmentSessionDTO>> getTreatmentSessions(@RequestParam(required = false) Long patientId,
                                                                        @RequestParam(required = false) String treatmentName) {
         List<TreatmentSession> treatmentSessions;
 
@@ -40,7 +40,7 @@ public class TreatmentSessionController {
         if (treatmentSessions.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(treatmentSessions, HttpStatus.OK);
+        return new ResponseEntity<>(treatmentSessionMapper.toDto(treatmentSessions), HttpStatus.OK);
     }
 
 }

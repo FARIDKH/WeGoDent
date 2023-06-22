@@ -1,41 +1,21 @@
 package com.company.WeGoDent.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class TreatmentSessionDTO {
 
-    Long treatmentPhaseId;
-    Long appointmentId;
+    TreatmentPhaseDTO treatmentPhaseDTO;
+    AppointmentDTO appointmentDTO;
     Long id;
     String note;
 
-    public Long getTreatmentPhaseId() {
-        return treatmentPhaseId;
-    }
 
-    public void setTreatmentPhaseId(Long treatmentPhaseId) {
-        this.treatmentPhaseId = treatmentPhaseId;
-    }
-
-    public Long getAppointmentId() {
-        return appointmentId;
-    }
-
-    public void setAppointmentId(Long appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 }

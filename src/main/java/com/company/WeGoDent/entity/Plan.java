@@ -4,16 +4,16 @@ package com.company.WeGoDent.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "plans")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@JsonIgnoreProperties(ignoreUnknown = true)
-@ToString
+@Builder
 public class Plan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,37 +24,19 @@ public class Plan {
     private String description;
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<PlanTreatment> planTreatments;
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Plan plan = (Plan) o;
+        return id != null && Objects.equals(id, plan.id);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<PlanTreatment> getPlanTreatments() {
-        return planTreatments;
-    }
-
-    public void setPlanTreatments(List<PlanTreatment> planTreatments) {
-        this.planTreatments = planTreatments;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

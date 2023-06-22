@@ -25,15 +25,11 @@ public class BlogPostService {
     }
 
     public List<BlogPost> getAllPostByCategory(Long id){
-
         return blogPostRepository.findByCategoryId(id);
-
     }
 
     public List<BlogPost> getAll(){
-
         return blogPostRepository.findAll();
-
     }
 
 
