@@ -14,14 +14,6 @@ public interface TreatmentMapper extends EntityMapper<TreatmentDTO, Treatment> {
 
 
 
-    //    default Treatment fromId(Long id) {
-//        if (id == null) {
-//            return null;
-//        }
-//        Treatment treatment = new Treatment();
-//        treatment.setId(id);
-//        return treatment;
-//    }
 
 
 

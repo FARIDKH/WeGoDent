@@ -9,8 +9,8 @@ public class AppointmentDTO {
     public LocalDateTime appointmentStart;
     public LocalDateTime appointmentEnd;
     public AppointmentStatus status;
-    public Long doctor_id;
-    public Long patient_id;
+    public DoctorDTO doctorDTO;
+    public PatientDTO patientDTO;
     public Long id;
 
 }

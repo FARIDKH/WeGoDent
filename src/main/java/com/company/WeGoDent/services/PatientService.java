@@ -1,11 +1,9 @@
 package com.company.WeGoDent.services;
 
-import com.company.WeGoDent.entity.Treatment;
+import com.company.WeGoDent.entity.*;
+import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.entity.Appointment;
-import com.company.WeGoDent.entity.Patient;
-import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,8 +84,13 @@ public class PatientService {
         return null;
     }
 
-    public List<Treatment> listTreatments(Long patientId){
-        return null;
+    public List<PatientPlan> listPlans(Long patientId){
+        Patient selectedPatient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id" + patientId));
+
+        return selectedPatient.getPatientPlanList();
+
+
     }
 
 

@@ -5,25 +5,34 @@ import com.company.WeGoDent.entity.Plan;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class PatientPlanDTO {
 
 
 
-    public int id;
+    private int id;
 
 
 
-    public Plan plan;
+    private PlanDTO planDTO;
 
 
-    public Patient patient;
+    private PatientDTO patientDTO;
 
 
-    public LocalDateTime planStartDate;
-    public LocalDateTime planEndDate;
+    private LocalDateTime planStartDate;
+    private LocalDateTime planEndDate;
 
 
 
