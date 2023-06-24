@@ -1,6 +1,7 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.enums.DoctorType;
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.TimeSlotForm;
 import com.company.WeGoDent.entity.Appointment;
@@ -26,7 +27,16 @@ public class DoctorController {
     @Autowired
     private DoctorAvailabilityService doctorAvailabilityService;
 
-    @PostMapping("/create")
+
+    @GetMapping
+    public List<Doctor> retrieveDoctorsByLocationAndType(
+            @RequestParam("doctorType") DoctorType doctorType,
+            @RequestParam("officeLocation") String officeLocation) {
+
+        return doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation);
+    }
+
+    @PostMapping
     @ResponseBody
     public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
         Doctor doctor = doctorService.createDoctor(doctorUserForm);
@@ -34,14 +44,14 @@ public class DoctorController {
     }
 
     @ResponseBody
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody DoctorUserForm doctorUserForm){
         Doctor doctor = doctorService.updateDoctor(id,doctorUserForm);
         return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
     @ResponseBody
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteDoctor(@PathVariable Long id){
         boolean l = doctorService.deleteDoctor(id);
         if(l){

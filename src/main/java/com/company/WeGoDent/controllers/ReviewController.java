@@ -17,7 +17,7 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     @ResponseBody
     public ResponseEntity<Review> createReviewForAppointment(@RequestBody ReviewForm reviewForm){
 

@@ -14,6 +14,19 @@ public class PlanTreatment {
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "treatment_id", nullable = false)
+    private Treatment treatment;
+
+    public Treatment getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(Treatment treatment) {
+        this.treatment = treatment;
+    }
+
     public Plan getPlan() {
         return plan;
     }

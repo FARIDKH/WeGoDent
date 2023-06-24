@@ -2,11 +2,19 @@ package com.company.WeGoDent.services;
 
 
 import com.company.WeGoDent.enums.AppointmentStatus;
+import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
 import com.company.WeGoDent.forms.AppointmentForm;
 import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.repositories.AppointmentRepository;
+import com.company.WeGoDent.repositories.PatientPlanRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -22,6 +30,21 @@ public class AppointmentService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private TreatmentSessionService treatmentSessionService;
+
+    @Autowired
+    private TreatmentPhaseService treatmentPhaseService;
+
+    @Autowired
+    private PlanService planService;
+
+    @Autowired
+    private PatientPlanService patientPlanService;
+
+    @Autowired
+    private PlanTreatmentService planTreatmentService;
 
     public Appointment createAppointment(AppointmentForm appointmentForm){
         Appointment appointment = new Appointment();
@@ -76,6 +99,57 @@ public class AppointmentService {
         }
         return null;
     }
+
+
+
+
+
+    // First time comers
+
+    @Transactional
+    public Appointment acceptAppointment(Long appointmentId, Long treatmentPhaseId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id " + appointmentId));
+
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
+        TreatmentPhase treatmentPhase = treatmentPhaseService.findById(treatmentPhaseId);
+
+
+        Plan plan = new Plan();
+        plan.setDescription("Plan with treatment of : " + treatmentPhase.getName());
+        plan.setName("Newly created plan");
+        plan = planService.create(plan);
+
+        PatientPlan patientPlan = new PatientPlan();
+        patientPlan.setPlan(plan);
+        patientPlan.setPlanStartDate(LocalDateTime.now());
+        patientPlan.setPlanEndDate(LocalDateTime.now().plusMonths(1));
+        patientPlan.setPatient(appointment.getPatient());
+
+        patientPlanService.create(patientPlan);
+
+        PlanTreatment planTreatment = new PlanTreatment();
+
+        planTreatment.setPlan(plan);
+        planTreatment.setTreatment(treatmentPhase.getTreatment());
+        planTreatmentService.create(planTreatment);
+
+
+        treatmentSessionService.createTreatmentSession(appointment,treatmentPhase);
+
+        return appointment;
+    }
+
+    @Transactional
+    public Appointment scheduleAppointment(Appointment appointment, Long treatmentPhaseId){
+
+        Appointment createdApp = appointmentRepository.saveAndFlush(appointment);
+        TreatmentPhase treatmentPhase = treatmentPhaseService.findById(treatmentPhaseId);
+        treatmentSessionService.createTreatmentSession(createdApp,treatmentPhase);
+        return createdApp;
+
+    }
+
 
 
 
