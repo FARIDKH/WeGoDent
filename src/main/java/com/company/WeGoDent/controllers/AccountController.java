@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,21 +68,27 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public ResponseEntity<?> getCurrentlyLoggedInUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ResponseEntity<?> getCurrentlyLoggedInUser(Principal principal){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        System.out.println(authentication.getPrincipal());
 
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = principal.getName();
+        System.out.println(currentUserName);
             User user = userService.getUserByUsername(currentUserName).get();
 
-            List<GroupRole> role = user.getRoles();
-            if(role.contains("DOCTOR")){
+//            List<GroupRole> roles = user.getRoles();
+            List<String> roles = user.getRoles().stream()
+                    .map(role -> role.getCode().toString())
+                    .collect(Collectors.toList());
+
+        System.out.println(roles);
+        if(roles.contains("DOCTOR")){
                 return ResponseEntity.ok(doctorService.getDoctorByUserId(user.getId()));
-            } else if(role.contains("PATIENT")){
+            } else if(roles.contains("PATIENT")){
                 return ResponseEntity.ok(patientService.findByUserId(user.getId()));
             }
-        }
+//        }
         System.out.println("anonym");
         return null;
     }
