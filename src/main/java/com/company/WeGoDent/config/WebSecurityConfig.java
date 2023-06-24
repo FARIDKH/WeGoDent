@@ -87,6 +87,7 @@ public class WebSecurityConfig {
                         .logoutUrl("/api/account/logout")
                         .addLogoutHandler(clearSiteData)
                         .logoutSuccessUrl("/api/account/authenticate")
+                        .permitAll()
                 );
 
 
