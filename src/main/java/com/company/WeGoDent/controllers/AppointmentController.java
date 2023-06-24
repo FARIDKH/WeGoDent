@@ -23,14 +23,14 @@ public class AppointmentController {
     @Autowired
     private AppointmentMapper appointmentMapper;
 
-    @PostMapping("/create")
+    @PostMapping("")
     @ResponseBody
     public ResponseEntity<Appointment> create(@RequestBody AppointmentForm appointmentForm){
         Appointment appointment = appointmentService.createAppointment(appointmentForm);
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Appointment> update(@PathVariable Long id,@RequestBody AppointmentForm appointmentForm){
         Appointment appointment = appointmentService.updateAppointment(id,appointmentForm);
@@ -40,7 +40,7 @@ public class AppointmentController {
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/accept/{appointmentId}/treatment-phase/{treatmentPhaseId}")
+    @PutMapping("/{appointmentId}/treatment-phase/{treatmentPhaseId}")
     @ResponseBody
     public ResponseEntity<Appointment> acceptAppointment(@PathVariable Long appointmentId,
                                                          @PathVariable Long treatmentPhaseId){
@@ -49,7 +49,7 @@ public class AppointmentController {
         );
     }
 
-    @PostMapping("/schedule/treatment-phase/{treatmentPhaseId}")
+    @PutMapping("/treatment-phase/{treatmentPhaseId}")
     @ResponseBody
     public ResponseEntity<AppointmentDTO> scheduleAppointment(@RequestBody AppointmentDTO appointmentDTO,
                                                            @PathVariable Long treatmentPhaseId){

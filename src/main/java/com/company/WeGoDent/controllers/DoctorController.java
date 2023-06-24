@@ -36,7 +36,7 @@ public class DoctorController {
         return doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseBody
     public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
         Doctor doctor = doctorService.createDoctor(doctorUserForm);
@@ -44,14 +44,14 @@ public class DoctorController {
     }
 
     @ResponseBody
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody DoctorUserForm doctorUserForm){
         Doctor doctor = doctorService.updateDoctor(id,doctorUserForm);
         return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
     @ResponseBody
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteDoctor(@PathVariable Long id){
         boolean l = doctorService.deleteDoctor(id);
         if(l){
