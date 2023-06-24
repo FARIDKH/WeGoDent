@@ -1,14 +1,20 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.dto.DoctorDTO;
+import com.company.WeGoDent.dto.PatientDTO;
+import com.company.WeGoDent.entity.Patient;
 import com.company.WeGoDent.enums.DoctorType;
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.TimeSlotForm;
 import com.company.WeGoDent.entity.Appointment;
 import com.company.WeGoDent.entity.Doctor;
 import com.company.WeGoDent.entity.DoctorAvailability;
+import com.company.WeGoDent.mapper.DoctorMapper;
+import com.company.WeGoDent.mapper.PatientMapper;
 import com.company.WeGoDent.services.DoctorAvailabilityService;
 import com.company.WeGoDent.services.DoctorService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +33,13 @@ public class DoctorController {
     @Autowired
     private DoctorAvailabilityService doctorAvailabilityService;
 
+    @Autowired
+    private PatientMapper patientMapper;
+
+    @Autowired
+    private DoctorMapper doctorMapper;
+
+
 
     @GetMapping
     public List<Doctor> retrieveDoctorsByLocationAndType(
@@ -34,6 +47,13 @@ public class DoctorController {
             @RequestParam("officeLocation") String officeLocation) {
 
         return doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation);
+    }
+
+    @GetMapping("/{doctorId}")
+    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable Long doctorId){
+        return ResponseEntity.ok(doctorMapper.toDto(
+                doctorService.findById(doctorId)
+        ));
     }
 
     @PostMapping
@@ -44,16 +64,16 @@ public class DoctorController {
     }
 
     @ResponseBody
-    @PutMapping("/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody DoctorUserForm doctorUserForm){
-        Doctor doctor = doctorService.updateDoctor(id,doctorUserForm);
+    @PutMapping("/{doctorId}")
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorUserForm doctorUserForm){
+        Doctor doctor = doctorService.updateDoctor(doctorId,doctorUserForm);
         return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
     @ResponseBody
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteDoctor(@PathVariable Long id){
-        boolean l = doctorService.deleteDoctor(id);
+    @DeleteMapping("/{doctorId}")
+    public ResponseEntity<Boolean> deleteDoctor(@PathVariable Long doctorId){
+        boolean l = doctorService.deleteDoctor(doctorId);
         if(l){
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
@@ -62,49 +82,57 @@ public class DoctorController {
     }
 
     @ResponseBody
-    @GetMapping("/{id}/appointments")
-    public ResponseEntity<List<Appointment>> getAppointments(@PathVariable Long id){
-        List<Appointment> appointments = doctorService.listAppointments(id);
+    @GetMapping("/{doctorId}/appointments")
+    public ResponseEntity<List<Appointment>> getAppointments(@PathVariable Long doctorId){
+        List<Appointment> appointments = doctorService.listAppointments(doctorId);
         return new ResponseEntity<>(appointments,HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/availability")
+    @PostMapping("/{doctorId}/availability")
     @ResponseBody
-    public ResponseEntity<Boolean> createAvailability(@PathVariable Long id,
+    public ResponseEntity<Boolean> createAvailability(@PathVariable Long doctorId,
                                                       @RequestBody TimeSlotForm timeSlotForm){
         doctorAvailabilityService.createAvailability(timeSlotForm);
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/availability")
+    @PutMapping("/{doctorId}/availability")
     @ResponseBody
-    public ResponseEntity<Boolean> updateAvailability(@PathVariable Long id,
+    public ResponseEntity<Boolean> updateAvailability(@PathVariable Long doctorId,
                                                       @RequestBody TimeSlotForm timeSlotForm){
         doctorAvailabilityService.createAvailability(timeSlotForm);
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/availability")
+    @DeleteMapping("/{doctorId}/availability")
     @ResponseBody
-    public ResponseEntity<Boolean> deleteAvailability(@PathVariable Long id,
+    public ResponseEntity<Boolean> deleteAvailability(@PathVariable Long doctorId,
                                                       @RequestBody TimeSlotForm timeSlotForm){
         doctorAvailabilityService.deleteAvailability(timeSlotForm);
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/availability")
+    @GetMapping("/{doctorId}/availability")
     @ResponseBody
-    public ResponseEntity<List<DoctorAvailability>> listAvailability(@PathVariable Long id){
-        return new ResponseEntity<>(doctorAvailabilityService.getAvailabilities(id),HttpStatus.OK);
+    public ResponseEntity<List<DoctorAvailability>> listAvailability(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorAvailabilityService.getAvailabilities(doctorId),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/rating")
+    @GetMapping("/{doctorId}/rating")
     @ResponseBody
-    public ResponseEntity<Double> getDoctorRating(@PathVariable Long id){
-
-
-
-        return new ResponseEntity<>(doctorService.getDoctorRating(id),HttpStatus.OK);
+    public ResponseEntity<Double> getDoctorRating(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorService.getDoctorRating(doctorId),HttpStatus.OK);
     }
+
+    @GetMapping("/{doctorId}/patients")
+    public ResponseEntity<List<PatientDTO>> listPatients(@PathVariable Long doctorId){
+        List<Patient> patients = doctorService.getPatientList(doctorId);
+
+        return ResponseEntity.ok(
+                patientMapper.toDto(patients)
+        );
+    }
+
+
 
 }

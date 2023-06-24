@@ -30,10 +30,10 @@ public class AppointmentController {
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{appointmentId}")
     @ResponseBody
-    public ResponseEntity<Appointment> update(@PathVariable Long id,@RequestBody AppointmentForm appointmentForm){
-        Appointment appointment = appointmentService.updateAppointment(id,appointmentForm);
+    public ResponseEntity<Appointment> update(@PathVariable Long appointmentId,@RequestBody AppointmentForm appointmentForm){
+        Appointment appointment = appointmentService.updateAppointment(appointmentId,appointmentForm);
         if(appointment != null){
             return new ResponseEntity<>(appointment, HttpStatus.OK);
         }

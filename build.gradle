@@ -41,7 +41,9 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	implementation group: 'org.springframework.plugin', name: 'spring-plugin-core', version: '2.0.0.RELEASE'
 
-	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	implementation 'dev.paseto:jpaseto-api:0.7.0'
 	implementation 'dev.paseto:jpaseto-impl:0.7.0'

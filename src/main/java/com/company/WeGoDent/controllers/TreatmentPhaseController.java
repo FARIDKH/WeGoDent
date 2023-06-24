@@ -38,9 +38,9 @@ public class TreatmentPhaseController {
         return treatmentPhaseMapper.toDto(treatmentPhaseService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TreatmentPhaseDTO> getTreatmentPhase(@PathVariable Long id) {
-        TreatmentPhase treatmentPhase = treatmentPhaseService.findById(id);
+    @GetMapping("/{treatmentPhaseId}")
+    public ResponseEntity<TreatmentPhaseDTO> getTreatmentPhase(@PathVariable Long treatmentPhaseId) {
+        TreatmentPhase treatmentPhase = treatmentPhaseService.findById(treatmentPhaseId);
         return ResponseEntity.ok(treatmentPhaseMapper.toDto(treatmentPhase));
     }
 
@@ -50,9 +50,9 @@ public class TreatmentPhaseController {
         return ResponseEntity.ok().body(treatmentPhaseMapper.toDto(updatedTreatmentPhase));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTreatmentPhase(@PathVariable Long id) {
-        treatmentPhaseService.deleteTreatmentPhase(id);
+    @DeleteMapping("/{treatmentPhaseId}")
+    public ResponseEntity<Void> deleteTreatmentPhase(@PathVariable Long treatmentPhaseId) {
+        treatmentPhaseService.deleteTreatmentPhase(treatmentPhaseId);
         return ResponseEntity.ok().build();
     }
 }

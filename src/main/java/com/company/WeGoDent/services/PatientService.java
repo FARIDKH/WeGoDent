@@ -30,7 +30,7 @@ public class PatientService {
 
         if(user != null){
 
-            patient.setPatientId(user);
+            patient.setUser(user);
 
         } else {
             // Handle the scenario where User creation failed
@@ -53,7 +53,7 @@ public class PatientService {
             userForm.lastName = patientUserForm.lastName;
             userForm.phoneNumber = patientUserForm.phoneNumber;
             userForm.password = patientUserForm.password;
-            accountService.updateUser(patient.getPatientId().getId(),userForm);
+            accountService.updateUser(patient.getUser().getId(),userForm);
         }
         return null;
     }
@@ -61,7 +61,7 @@ public class PatientService {
     public Boolean deletePatient(Long id){
         if(patientRepository.existsById(id)){
             Patient patient = patientRepository.findById(id).get();
-            accountService.deleteUser(patient.getPatientId().getId());
+            accountService.deleteUser(patient.getUser().getId());
             patientRepository.delete(patient);
             return true;
         }
@@ -91,6 +91,10 @@ public class PatientService {
         return selectedPatient.getPatientPlanList();
 
 
+    }
+
+    public Patient findByUserId(Long userId){
+        return patientRepository.findByUserId(userId);
     }
 
 

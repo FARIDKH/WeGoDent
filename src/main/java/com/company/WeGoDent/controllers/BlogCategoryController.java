@@ -26,9 +26,9 @@ public class BlogCategoryController {
     private BlogMapper blogMapper;
 
 
-    @GetMapping("/{id}")
-    private ResponseEntity<BlogCategoryDTO> getBlogCategoryByID(@PathVariable Long id){
-        BlogCategory blogCategory = blogCategoryService.getBlogCategoryById(id);
+    @GetMapping("/{blogCategoryId}")
+    private ResponseEntity<BlogCategoryDTO> getBlogCategoryByID(@PathVariable Long blogCategoryId){
+        BlogCategory blogCategory = blogCategoryService.getBlogCategoryById(blogCategoryId);
         BlogCategoryDTO blogCategoryDTO = blogMapper.entityToDto(blogCategory);
 
         return ResponseEntity.ok(blogCategoryDTO);
@@ -36,7 +36,7 @@ public class BlogCategoryController {
     }
 
     @GetMapping
-    private ResponseEntity<List<BlogCategoryDTO>> gellAllCategories(){
+    private ResponseEntity<List<BlogCategoryDTO>> getAllCategories(){
         List<BlogCategory> blogCategory = blogCategoryService.getAllBlogCategories();
         List<BlogCategoryDTO> blogCategoryDTO = blogMapper.categoryEntitiesToDtos(blogCategory);
 
@@ -44,9 +44,9 @@ public class BlogCategoryController {
 
     }
 
-    @GetMapping("/{id}/posts")
-    private ResponseEntity<List<BlogPostDTO>> getBlogPostByCategory(@PathVariable Long id){
-        List<BlogPost> blogPostList = blogCategoryService.getAllPostByCategory(id);
+    @GetMapping("/{blogCategoryId}/posts")
+    private ResponseEntity<List<BlogPostDTO>> getBlogPostByCategory(@PathVariable Long blogCategoryId){
+        List<BlogPost> blogPostList = blogCategoryService.getAllPostByCategory(blogCategoryId);
         List<BlogPostDTO> blogPostDTOList = blogMapper.entitiesToDtos(blogPostList);
         return ResponseEntity.ok(blogPostDTOList);
     }
@@ -60,21 +60,21 @@ public class BlogCategoryController {
         return ResponseEntity.ok(createdDTO);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{blogCategoryId}")
     private ResponseEntity<BlogCategoryDTO> updateBlogCategory(
-            @PathVariable Long id
+            @PathVariable Long blogCategoryId
             , @Valid @RequestBody BlogCategoryDTO blogCategoryDTO){
         BlogCategory blogCategory = blogMapper.DtoToEntity(blogCategoryDTO);
-        BlogCategory createdBC = blogCategoryService.updateBlogCategory(id,blogCategory);
+        BlogCategory createdBC = blogCategoryService.updateBlogCategory(blogCategoryId,blogCategory);
         BlogCategoryDTO createdDTO = blogMapper.entityToDto(createdBC);
 
         return ResponseEntity.ok(createdDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{blogCategoryId}")
     private ResponseEntity<Boolean> deleteBlogCategory(
-            @PathVariable Long id){
-        Boolean value = blogCategoryService.deleteBlogCategory(id);
+            @PathVariable Long blogCategoryId){
+        Boolean value = blogCategoryService.deleteBlogCategory(blogCategoryId);
 
         return ResponseEntity.ok(value);
     }

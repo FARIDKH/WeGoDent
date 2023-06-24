@@ -61,7 +61,8 @@ public class UserDetailsServiceImpl implements UserService {
      * @param usernameValue username or email
      * @return Optional User
      */
-    private Optional<User> getUserByUsername(String usernameValue) {
+    @Override
+    public Optional<User> getUserByUsername(String usernameValue) {
         // trim username value
         var username = StringUtils.trimToNull(usernameValue);
         if (StringUtils.isEmpty(username)) {

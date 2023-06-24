@@ -36,16 +36,16 @@ public class PatientController {
     }
 
     @ResponseBody
-    @PutMapping("/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable  Long id,@RequestBody PatientUserForm patientUserForm){
-        Patient patient = patientService.updatePatient(id,patientUserForm);
+    @PutMapping("/{patientId}")
+    public ResponseEntity<Patient> updatePatient(@PathVariable  Long patientId,@RequestBody PatientUserForm patientUserForm){
+        Patient patient = patientService.updatePatient(patientId,patientUserForm);
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
 
     @ResponseBody
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deletePatient(@PathVariable Long id){
-        boolean l = patientService.deletePatient(id);
+    @DeleteMapping("/{patientId}")
+    public ResponseEntity<Boolean> deletePatient(@PathVariable Long patientId){
+        boolean l = patientService.deletePatient(patientId);
         if(l){
             return new ResponseEntity<>(true,HttpStatus.OK);
         }
@@ -54,20 +54,29 @@ public class PatientController {
     }
 
     @ResponseBody
-    @GetMapping("/{id}/appointments")
-    public ResponseEntity<List<Appointment>> listAppointments(@PathVariable Long id){
+    @GetMapping("/{patientId}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long patientId){
         return new ResponseEntity<>(
-                patientService.listAppointments(id),
+                patientService.findById(patientId),
                 HttpStatus.OK
         );
     }
 
     @ResponseBody
-    @GetMapping("/{id}/plan")
-    public ResponseEntity<List<PatientPlanDTO>> getPatientPlans(@PathVariable Long id){
+    @GetMapping("/{patientId}/appointments")
+    public ResponseEntity<List<Appointment>> listAppointments(@PathVariable Long patientId){
+        return new ResponseEntity<>(
+                patientService.listAppointments(patientId),
+                HttpStatus.OK
+        );
+    }
+
+    @ResponseBody
+    @GetMapping("/{patientId}/plan")
+    public ResponseEntity<List<PatientPlanDTO>> getPatientPlans(@PathVariable Long patientId){
 
         return ResponseEntity.ok(
-                patientPlanMapper.toDto(patientService.listPlans(id))
+                patientPlanMapper.toDto(patientService.listPlans(patientId))
         );
 
     }

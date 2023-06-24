@@ -37,16 +37,16 @@ public class TreatmentController {
         return new ResponseEntity<>(treatmentMapper.toDto(treatment),HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TreatmentDTO> getTreatmentById(@PathVariable Long id){
+    @GetMapping("/{treatmentId}")
+    public ResponseEntity<TreatmentDTO> getTreatmentById(@PathVariable Long treatmentId){
         return ResponseEntity.ok(
-                treatmentMapper.toDto(treatmentService.getById(id))
+                treatmentMapper.toDto(treatmentService.getById(treatmentId))
         );
     }
 
-    @GetMapping("/{id}/phases")
-    public ResponseEntity<List<TreatmentPhaseDTO>> getAllTreatmentPhasesOfTreatment(@PathVariable Long id){
-        List<TreatmentPhase> treatmentPhaseList = treatmentService.getTreatmentPhasesOfTreatmentBy(id);
+    @GetMapping("/{treatmentId}/phases")
+    public ResponseEntity<List<TreatmentPhaseDTO>> getAllTreatmentPhasesOfTreatment(@PathVariable Long treatmentId){
+        List<TreatmentPhase> treatmentPhaseList = treatmentService.getTreatmentPhasesOfTreatmentBy(treatmentId);
         List<TreatmentPhaseDTO> treatmentPhaseDTOts = treatmentPhaseMapper.toDto(treatmentPhaseList);
 
         return ResponseEntity.ok(treatmentPhaseDTOts);
@@ -58,9 +58,9 @@ public class TreatmentController {
         return ResponseEntity.ok(treatmentMapper.toDto(treatment));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteTreatment(@PathVariable Long id){
-        Boolean l = treatmentService.deleteTreatment(id);
+    @DeleteMapping("/{treatmentId}")
+    public ResponseEntity<Boolean> deleteTreatment(@PathVariable Long treatmentId){
+        Boolean l = treatmentService.deleteTreatment(treatmentId);
         if(l){
             return ResponseEntity.ok(Boolean.TRUE);
         }

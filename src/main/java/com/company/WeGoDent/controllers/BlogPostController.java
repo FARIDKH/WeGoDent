@@ -24,9 +24,9 @@ public class BlogPostController {
     @Autowired
     private BlogMapper blogPostMapper;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BlogPostDTO> getById(@PathVariable Long id) {
-        BlogPost blogPost = blogPostService.getById(id);
+    @GetMapping("/{blogPostId}")
+    public ResponseEntity<BlogPostDTO> getById(@PathVariable Long blogPostId) {
+        BlogPost blogPost = blogPostService.getById(blogPostId);
         return ResponseEntity.ok(blogPostMapper.entityToDto(blogPost));
     }
 
@@ -42,15 +42,15 @@ public class BlogPostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(blogPostMapper.entityToDto(createdBlogPost));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BlogPostDTO> update(@PathVariable Long id, @RequestBody BlogPostDTO blogPostDto) {
-        BlogPost updatedBlogPost = blogPostService.updateBlogPost(id, blogPostMapper.dtoToEntity(blogPostDto));
+    @PutMapping("/{blogPostId}")
+    public ResponseEntity<BlogPostDTO> update(@PathVariable Long blogPostId, @RequestBody BlogPostDTO blogPostDto) {
+        BlogPost updatedBlogPost = blogPostService.updateBlogPost(blogPostId, blogPostMapper.dtoToEntity(blogPostDto));
         return ResponseEntity.ok(blogPostMapper.entityToDto(updatedBlogPost));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        blogPostService.deleteById(id);
+    @DeleteMapping("/{blogPostId}")
+    public ResponseEntity<Void> delete(@PathVariable Long blogPostId) {
+        blogPostService.deleteById(blogPostId);
         return ResponseEntity.noContent().build();
     }
 }
