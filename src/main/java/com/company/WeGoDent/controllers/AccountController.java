@@ -1,31 +1,40 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.entity.Doctor;
+import com.company.WeGoDent.entity.GroupRole;
+import com.company.WeGoDent.records.JwtResponse;
 import com.company.WeGoDent.records.LoginDTO;
 import com.company.WeGoDent.dto.SignupDTO;
 import com.company.WeGoDent.records.SuccessResponse;
 import com.company.WeGoDent.dto.UserDTO;
 import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.mapper.UserMapper;
-import com.company.WeGoDent.security.TokenProvider;
+import com.company.WeGoDent.security.JwtUtils;
 import com.company.WeGoDent.security.services.UserService;
+import com.company.WeGoDent.services.DoctorService;
+import com.company.WeGoDent.services.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -40,15 +49,41 @@ public class AccountController {
     private  AuthenticationManager authenticationManager;
     @Autowired
 
-    private  TokenProvider tokenProvider;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserMapper mapper;
 
-    @GetMapping("/user")
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @GetMapping("/allUsers")
     public ResponseEntity<SuccessResponse> getAllUser() {
         List<UserDTO> users = userService.getUsers().stream().map(mapper::copyUserEntityToDto).toList();
         return new ResponseEntity<>(new SuccessResponse(users, MessageFormat.format("{0} result found", users.size())), HttpStatus.OK);
+    }
+
+    @GetMapping("/account")
+    public ResponseEntity<?> getCurrentlyLoggedInUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println(authentication.getPrincipal());
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            User user = userService.getUserByUsername(currentUserName).get();
+
+            List<GroupRole> role = user.getRoles();
+            if(role.contains("DOCTOR")){
+                return ResponseEntity.ok(doctorService.getDoctorByUserId(user.getId()));
+            } else if(role.contains("PATIENT")){
+                return ResponseEntity.ok(patientService.findByUserId(user.getId()));
+            }
+        }
+        System.out.println("anonym");
+        return null;
     }
 
     @PostMapping("/register")
@@ -61,14 +96,25 @@ public class AccountController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<SuccessResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
 
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password()));
-
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password()));
+        System.out.println("auth saved : " + authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
-        return ResponseEntity.ok(new SuccessResponse(jwt, "Login Successfully"));
+        User userDetails = (User) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
+
     }
 
 

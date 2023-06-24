@@ -45,11 +45,11 @@ public class PlanController {
         );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PlanDTO> getByID(@PathVariable Long id,@Valid @RequestBody PlanDTO planDTO){
+    @GetMapping("/{planId}")
+    public ResponseEntity<PlanDTO> getByID(@PathVariable Long planId,@Valid @RequestBody PlanDTO planDTO){
 
         return ResponseEntity.ok(
-                planMapper.toDto(planService.getPlanById(id))
+                planMapper.toDto(planService.getPlanById(planId))
         );
 
     }
@@ -72,11 +72,11 @@ public class PlanController {
 
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteByID(@PathVariable Long id){
+    @DeleteMapping("/{planId}")
+    public ResponseEntity<?> deleteByID(@PathVariable Long planId){
 
         return ResponseEntity.ok(
-                planService.delete(id)
+                planService.delete(planId)
         );
 
     }

@@ -26,7 +26,7 @@ public class NotificationService {
         notification.setTimeSent(new Timestamp(System.currentTimeMillis()));
         notification.setMessage("Notifying for appointment");
 
-        User patient = appointment.getPatient().getPatientId();
+        User patient = appointment.getPatient().getUser();
         Doctor doctor = appointment.getDoctor();
 
         try {
@@ -37,9 +37,9 @@ public class NotificationService {
         }
 
 
-        emailService.sendAppointmentMessageToDoctor(doctor.getDoctorId().getEmail(),
+        emailService.sendAppointmentMessageToDoctor(doctor.getUser().getEmail(),
                 "WeGoDent.com | New Appointment request",
-                doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
+                doctor.getUser().getFirstName() + " " + doctor.getUser().getLastName(),
                 patient.getFirstName() + " " + patient.getLastName(),
                 appointment.getAppointmentStart(),
                 doctor.getOfficeLocation().toText()
@@ -56,12 +56,12 @@ public class NotificationService {
         notification.setTimeSent(new Timestamp(System.currentTimeMillis()));
         notification.setMessage("Notifying Patient for change in appointment");
 
-        User patient = appointment.getPatient().getPatientId();
+        User patient = appointment.getPatient().getUser();
         Doctor doctor = appointment.getDoctor();
 
         try {
             emailService.sendAppointmentMessageToPatient(patient.getEmail(), "WeGoDent.com | CHANGE IN APPOINTMENT BY DOCTOR",
-                    doctor.getDoctorId().getFirstName() + " " + doctor.getDoctorId().getLastName(),
+                    doctor.getUser().getFirstName() + " " + doctor.getUser().getLastName(),
                     patient.getFirstName() + " " + patient.getLastName(),
             appointment.getAppointmentStart(),
                     doctor.getOfficeLocation().toString(),

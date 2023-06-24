@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-@Entity
-@Table(name = "patients")
+@Entity(name = "patients")
+@Table
 @Data
 public class Patient {
 
@@ -26,7 +26,7 @@ public class Patient {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User patientId;
+    private User user;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<PatientPlan> patientPlanList;

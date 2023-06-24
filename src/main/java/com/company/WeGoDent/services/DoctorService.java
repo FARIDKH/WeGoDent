@@ -1,12 +1,11 @@
 package com.company.WeGoDent.services;
 
 
+import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.enums.DoctorType;
+import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
 import com.company.WeGoDent.forms.DoctorUserForm;
 import com.company.WeGoDent.forms.UserForm;
-import com.company.WeGoDent.entity.Appointment;
-import com.company.WeGoDent.entity.Doctor;
-import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.records.GeoLocationInformation;
 import com.company.WeGoDent.repositories.DoctorRepository;
 import com.company.WeGoDent.services.helpers.GeocodingService;
@@ -14,6 +13,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.List;
 
 @Service
@@ -38,7 +38,7 @@ public class DoctorService {
         User user = accountService.createDoctorUser(doctorForm);
 
         if(user != null){
-            doctor.setDoctorId(user);
+            doctor.setUser(user);
             getDoctorForm(doctorForm, doctor);
 
         } else {
@@ -82,7 +82,7 @@ public class DoctorService {
         userForm.lastName = doctorForm.lastName;
         userForm.phoneNumber = doctorForm.phoneNumber;
         userForm.password = doctorForm.password;
-        accountService.updateUser(doctor.getDoctorId().getId(),userForm);
+        accountService.updateUser(doctor.getUser().getId(),userForm);
         getDoctorForm(doctorForm, doctor);
 
 
@@ -107,7 +107,7 @@ public class DoctorService {
         if(doctorRepository.existsById(doctorId)){
 
             Doctor doctor = doctorRepository.findById(doctorId).get();
-            accountService.deleteUser(doctor.getDoctorId().getId()); // get relevant user and it's ID and delete user
+            accountService.deleteUser(doctor.getUser().getId()); // get relevant user and it's ID and delete user
             doctorRepository.deleteById(doctorId);
 
             return true;
@@ -118,13 +118,9 @@ public class DoctorService {
 
 
     public Doctor findById(Long doctorId){
-        if(doctorRepository.existsById(doctorId)){
-
-            Doctor doctor = doctorRepository.findById(doctorId).get();
-            return doctor;
-        }
-        return null;
-
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id" + doctorId));
+        return doctor;
     }
 
     public List<Appointment> listAppointments(Long doctorId){
@@ -138,6 +134,16 @@ public class DoctorService {
 
     public Double getDoctorRating(Long doctorId){
         return reviewService.getDoctorsRating(doctorId);
+    }
+
+    public List<Patient> getPatientList(Long doctorId) {
+        doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id" + doctorId));
+        return doctorRepository.findPatientsByDoctorId(doctorId);
+    }
+
+    public Doctor getDoctorByUserId(Long userId){
+        return doctorRepository.findByUserId(userId);
     }
 
 

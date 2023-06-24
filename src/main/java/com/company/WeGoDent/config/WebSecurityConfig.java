@@ -3,11 +3,13 @@ package com.company.WeGoDent.config;
 
 
 
+import com.company.WeGoDent.security.AuthEntryPointJwt;
 import com.company.WeGoDent.security.AuthTokenFilter;
 import com.company.WeGoDent.security.HandlerAccessDeniedHandler;
 import com.company.WeGoDent.security.HandlerAuthenticationEntryPoint;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +29,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Properties;
 
@@ -42,6 +47,12 @@ public class WebSecurityConfig {
     @Autowired
     private AuthTokenFilter authTokenFilter;
 
+
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+
+
+
     @Bean // (1)
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,49 +63,52 @@ public class WebSecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean // (3)
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
+
 
     @Bean // (4)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
+        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.ALL));
+
         // @formatter:off
-        http
-                .csrf()
-                .disable()
 
-                // Add Paseto token filter
-                .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(authenticationProvider())
 
-                // Set unauthorized requests exception handler
-                .exceptionHandling()
-                .authenticationEntryPoint(new HandlerAuthenticationEntryPoint())
-                .accessDeniedHandler(new HandlerAccessDeniedHandler())
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/api/account/authenticate").permitAll()
-                        .requestMatchers("/api/account/register").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        http.csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth ->  auth
+                            .requestMatchers("/api/authenticate").permitAll()
+                            .requestMatchers("/api/register").permitAll()
+//                            .requestMatchers("/api/").permitAll()
+                            .anyRequest().authenticated()
+                )
+                .logout((logout) -> logout
+                        .logoutUrl("/api/account/logout")
+                        .addLogoutHandler(clearSiteData)
+                        .logoutSuccessUrl("/api/account/authenticate")
                 );
-                // Set permissions on endpoints
 
-//                .requestMatchers(
-//                        "/configuration/ui",
-//                        "/swagger-resources/**",
-//                        "/configuration/security",
-//                        "/webjars/**").permitAll()
-//                .requestMatchers("/api/**").authenticated();
+
+        http.authenticationProvider(authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         // @formatter:on
         return http.build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
     }
 
     @Bean

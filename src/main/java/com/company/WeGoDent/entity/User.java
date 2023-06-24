@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ToString
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
