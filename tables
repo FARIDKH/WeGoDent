@@ -1,0 +1,161 @@
+CREATE ROLE myuser superuser;
+ALTER ROLE "myuser" WITH LOGIN;
+create database InsuranceDb;
+create database InsuranceDB;
+drop InsuranceDb
+create database InsuranceDB;
+create database InsuranceDB;
+drop InsuranceDb;
+drop table InsuranceDb;
+drop table insuranceDb;
+create database InsuranceDB;
+clear
+drop database InsuranceDb;
+drop database InsuranceDb;
+create database InsuranceDB;
+create database InsuranceDB;
+use InsuranceDB;
+use InsuranceDB;
+\c
+CREATE DATABASE InsuranceDB;
+psql
+use InsuranceDb;
+select * from insurancedb.cascoRisk
+drop insuranceDb;
+drop database insurancedb;
+create database insurancedb;
+select * from insurancedb.casco_insurances;
+use insurancedb
+select * from offer;
+select * from insurancedb.offer;
+select * from insurancedb.offers;
+CREATE DATABASE PatientManagementDB;
+use PatientManagementDB;
+show tables PatientManagementDB;
+clear
+\c
+CREATE DATABASE PatientManagementDB;
+;
+CREATE DATABASE PatientManagementDB;
+use patientmanagementdb;
+\c patientmanagementdb;
+show tables;'
+create user patientmanagementdb_user with password verysecret  and grant all privileges on the database  patientmanagementdb
+flush privileges;
+create user patientmanagementdb_user with password verysecret  and grant all privileges on the database  patientmanagementdb
+flush privileges;
+CREATE USER patientmanagementdb_user WITH PASSWORD 'verysecret';
+GRANT ALL PRIVILEGES ON DATABASE patientmanagementdb TO patientmanagementdb_user;
+FLUSH PRIVILEGES;
+show tables;
+describe GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+describe users;
+select * from users;
+drop users;
+drop table users;
+drop table *;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+show users;
+describe reviews;
+drop reviews;
+drop table reviews;
+DROP SCHEMA patientmanagementdb CASCADE;
+DROP SCHEMA patientmanagementdb CASCADE; CREATE SCHEMA patientmanagementdb;
+DROP SCHEMA patientmanagementdb CASCADE; CREATE SCHEMA patientmanagementdb;
+GRANT ALL PRIVILEGES ON DATABASE patientmanagementdb TO patientmanagementdb_user;
+select * from users;
+drop table users;
+ DROP SCHEMA patientmanagementdb CASCADE;;
+show tables;
+drop schema public CASCADE;
+CREATE schema public;
+select * from users;
+select * from patients;
+CREATE schema public;
+drop schema public CASCADE;
+CREATE schema public;
+drop schema public CASCADE;
+CREATE schema public;
+GRANT USAGE ON SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user
+GRANT USAGE ON SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user
+GRANT USAGE ON SCHEMA public TO patientmanagementdb_user;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user.
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user.
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+drop schema public CASCADE;
+patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+CREATE schema public;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+CREATE TABLE alter table if exists blog_posts_categories add constraint FKkds9cdt3wv43k93mf63h5u00b foreign key (categories_id) references public.blog_categories
+;
+alter table if exists blog_posts_categories add constraint FKkds9cdt3wv43k93mf63h5u00b foreign key (categories_id) references public.blog_categories
+drop schema public;
+drop schema public CASCADE;
+drop schema public CASCADE;
+GRANT USAGE ON SCHEMA public TO patientmanagementdb_user;
+CREATE schema public;
+GRANT USAGE ON SCHEMA public TO patientmanagementdb_user;
+SELECT usename AS username,
+  CASE WHEN usesuper AND usecreatedb THEN
+    CAST('superuser, create database' AS pg_catalog.text)
+  WHEN usesuper THEN
+    CAST('superuser' AS pg_catalog.text)
+  WHEN usecreatedb THEN
+    CAST('create database' AS pg_catalog.text)
+  ELSE
+    CAST('' AS pg_catalog.text)
+  END role_attributes
+FROM pg_user
+ORDER BY username;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO patientmanagementdb_user;
+SELECT usename AS username,
+  CASE WHEN usesuper AND usecreatedb THEN
+    CAST('superuser, create database' AS pg_catalog.text)
+  WHEN usesuper THEN
+    CAST('superuser' AS pg_catalog.text)
+  WHEN usecreatedb THEN
+    CAST('create database' AS pg_catalog.text)
+  ELSE
+    CAST('' AS pg_catalog.text)
+  END role_attributes
+FROM pg_user
+ORDER BY username;
+ALTER USER myuser WITH PASSWORD 'verysecret'; 
+SAVE
+;
+SELECT * FROM pg_extension;
+describe doctors;
+use patientmanagementdb;
+CREATE EXTENSION postgis;
+git status
+exit
+\q
+SELECT * FROM doctors d WHERE d.doctor_type = General_Dentist AND ST_DWithin(d.office_location:geography, ST_SetSRID(ST_MakePoint(19.0849934, 47.5033678), 4326):geography, 20 * 1000);
+SELECT * FROM doctors d WHERE d.doctor_type = General_Dentist AND ST_DWithin(d.office_location:geography, ST_SetSRID(ST_MakePoint(19.0849934, 47.5033678), 4326):geography, 20 * 1000);
+SELECT * FROM doctors d WHERE d.doctor_type = General_Dentist AND ST_DWithin(d.office_location:geography, ST_SetSRID(ST_MakePoint(19.0849934, 47.5033678), 4326):geography, 20 * 1000);
+SELECT * FROM doctors d WHERE d.doctor_type = General_Dentist AND ST_DWithin(d.office_location::geography, ST_SetSRID(ST_MakePoint(19.0849934,[D[D[D[Dz[D[D 47.5033678), 4326)::geography, 20 * 1000);
+SELECT * FROM doctors d WHERE d.doctor_type = General_Dentist AND ST_DWithin(d.office_location::geography, ST_SetSRID(ST_MakePoint(19.0849934, 47.5033678), 4326)::geography, 20 * 1000);
+select * from treatments;
+select * from treatment_phases;
+select * from treatment_phases;
+select * from appointments;
+select * from treatment_phases;
+select * from treatment_sessions;
+select * from treatment_phases;
+select * from doctors;
+select * from appointments;
+select * from appointments;
+select * from tokens;
+\s tables;

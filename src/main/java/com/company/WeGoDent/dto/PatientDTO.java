@@ -19,7 +19,8 @@ public class PatientDTO {
     private String phoneNumber;
 
     private String password;
-    private UserType userType = UserType.PATIENT;
+    private UserDTO userDTO;
+    private UserType userType = UserType.ROLE_PATIENT;
 
 
 

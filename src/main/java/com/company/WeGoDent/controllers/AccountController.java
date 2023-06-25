@@ -12,8 +12,11 @@ import com.company.WeGoDent.entity.User;
 import com.company.WeGoDent.mapper.UserMapper;
 import com.company.WeGoDent.security.JwtUtils;
 import com.company.WeGoDent.security.services.UserService;
+import com.company.WeGoDent.services.AccountService;
 import com.company.WeGoDent.services.DoctorService;
 import com.company.WeGoDent.services.PatientService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,12 +48,12 @@ public class AccountController {
     @Autowired
 
     private  PasswordEncoder passwordEncoder;
-    @Autowired
-
-    private  AuthenticationManager authenticationManager;
-    @Autowired
-
-    private JwtUtils jwtUtils;
+//    @Autowired
+//
+//    private  AuthenticationManager authenticationManager;
+//    @Autowired
+//
+//    private JwtUtils jwtUtils;
 
     @Autowired
     private UserMapper mapper;
@@ -61,35 +64,30 @@ public class AccountController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private AccountService accountService;
+
     @GetMapping("/allUsers")
     public ResponseEntity<SuccessResponse> getAllUser() {
-        List<UserDTO> users = userService.getUsers().stream().map(mapper::copyUserEntityToDto).toList();
+        List<UserDTO> users = userService.getUsers().stream().map(mapper::toDto).toList();
         return new ResponseEntity<>(new SuccessResponse(users, MessageFormat.format("{0} result found", users.size())), HttpStatus.OK);
     }
 
     @GetMapping("/account")
     public ResponseEntity<?> getCurrentlyLoggedInUser(Principal principal){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(authentication.getPrincipal());
 
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = principal.getName();
-        System.out.println(currentUserName);
-            User user = userService.getUserByUsername(currentUserName).get();
+        String currentUserName = principal.getName();
+        User user = userService.getUserByUsername(currentUserName).get();
 
-//            List<GroupRole> roles = user.getRoles();
-            List<String> roles = user.getRoles().stream()
-                    .map(role -> role.getCode().toString())
-                    .collect(Collectors.toList());
+        List<String> roles = user.getRoles().stream()
+                .map(role -> role.getCode().toString())
+                .collect(Collectors.toList());
 
-        System.out.println(roles);
-        if(roles.contains("DOCTOR")){
-                return ResponseEntity.ok(doctorService.getDoctorByUserId(user.getId()));
-            } else if(roles.contains("PATIENT")){
-                return ResponseEntity.ok(patientService.findByUserId(user.getId()));
-            }
-//        }
-        System.out.println("anonym");
+        if(roles.contains("ROLE_DOCTOR")){
+            return ResponseEntity.ok(doctorService.getDoctorByUserId(user.getId()));
+        } else if(roles.contains("ROLE_PATIENT")){
+            return ResponseEntity.ok(patientService.findByUserId(user.getId()));
+        }
         return null;
     }
 
@@ -99,29 +97,26 @@ public class AccountController {
         String encodePassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encodePassword);
         User newUser = userService.save(user);
-        return ResponseEntity.ok(new SuccessResponse(mapper.copyUserEntityToDto(newUser), "Registered successfully"));
+        return ResponseEntity.ok(new SuccessResponse(mapper.toDto(newUser), "Registered successfully"));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.username(), loginDTO.password()));
-        System.out.println("auth saved : " + authentication);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        return accountService.authenticate(loginDTO);
 
-        User userDetails = (User) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+    }
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession().invalidate();
+
+
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.ok("Logged out successfully.");
     }
 
 

@@ -4,12 +4,15 @@ package com.company.WeGoDent.security;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.company.WeGoDent.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.*;
@@ -26,14 +29,40 @@ public class JwtUtils {
     @Value("${wegodent.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+//    public String generateJwtToken(Authentication authentication) {
+//
+//        User userPrincipal = (User) authentication.getPrincipal();
+//
+//        return Jwts.builder()
+//                .setSubject((userPrincipal.getUsername()))
+//                .setIssuedAt(new Date())
+//                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+//                .signWith(key(), SignatureAlgorithm.HS256)
+//                .compact();
+//    }
 
-        User userPrincipal = (User) authentication.getPrincipal();
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
 
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
+        return buildToken(extraClaims, userDetails, jwtExpirationMs);
+    }
+
+    private String buildToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration
+    ) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }

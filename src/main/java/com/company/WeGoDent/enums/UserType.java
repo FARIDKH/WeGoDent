@@ -2,6 +2,6 @@ package com.company.WeGoDent.enums;
 
 public enum UserType {
 
-    PATIENT, DOCTOR, ADMIN, BLOGGER
+    ROLE_PATIENT, ROLE_DOCTOR, ROLE_ADMIN, ROLE_BLOGGER
 
 }

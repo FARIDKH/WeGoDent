@@ -7,6 +7,7 @@ import com.company.WeGoDent.security.AuthEntryPointJwt;
 import com.company.WeGoDent.security.AuthTokenFilter;
 import com.company.WeGoDent.security.HandlerAccessDeniedHandler;
 import com.company.WeGoDent.security.HandlerAuthenticationEntryPoint;
+import com.company.WeGoDent.security.services.LogoutService;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,16 +21,21 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -52,6 +58,10 @@ public class WebSecurityConfig {
     private AuthEntryPointJwt unauthorizedHandler;
 
 
+    @Autowired
+    private LogoutService logoutService;
+
+
 
     @Bean // (1)
     public PasswordEncoder passwordEncoder() {
@@ -69,25 +79,39 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 
-        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.ALL));
+//        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.ALL));
 
         // @formatter:off
 
 
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth ->  auth
-                            .requestMatchers("/api/authenticate").permitAll()
-                            .requestMatchers("/api/register").permitAll()
-//                            .requestMatchers("/api/").permitAll()
-                            .anyRequest().authenticated()
-                )
-                .logout((logout) -> logout
-                        .logoutUrl("/api/account/logout")
-                        .addLogoutHandler(clearSiteData)
-                        .logoutSuccessUrl("/api/account/authenticate")
-                        .permitAll()
+                        .requestMatchers("/api/authenticate").permitAll()
+                        .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/api/logout").permitAll()
+                        .requestMatchers("/api/allUsers").permitAll()
+                        .requestMatchers("/api/admin/**").permitAll()
+                        .requestMatchers("/api/appointment/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/api/blogposts/**").permitAll()
+                        .requestMatchers("/api/blogcategory/**").permitAll()
+//                        -------------------------
+                        .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
+                        .requestMatchers("/api/review/**").hasRole("PATIENT")
+                        .requestMatchers("/api/plan/**").hasRole("DOCTOR")
+                        .requestMatchers("/api/treatments/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers("/api/treatment-phases/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers("/api/treatment-sessions/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .anyRequest().authenticated()
+
+                ).logout((logout) -> logout
+                        .logoutUrl("/api/logout")
+                        .addLogoutHandler(logoutService)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 );
 
 

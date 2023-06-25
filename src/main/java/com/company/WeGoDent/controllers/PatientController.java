@@ -1,11 +1,13 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.dto.PatientDTO;
 import com.company.WeGoDent.dto.PatientPlanDTO;
 import com.company.WeGoDent.entity.PatientPlan;
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.entity.Appointment;
 import com.company.WeGoDent.entity.Patient;
+import com.company.WeGoDent.mapper.PatientMapper;
 import com.company.WeGoDent.mapper.PatientPlanMapper;
 import com.company.WeGoDent.services.PatientService;
 import org.apache.coyote.Response;
@@ -27,6 +29,9 @@ public class PatientController {
 
     @Autowired
     private PatientPlanMapper patientPlanMapper;
+
+    @Autowired
+    private PatientMapper patientMapper;
 
     @ResponseBody
     @PostMapping
@@ -55,9 +60,9 @@ public class PatientController {
 
     @ResponseBody
     @GetMapping("/{patientId}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long patientId){
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable Long patientId){
         return new ResponseEntity<>(
-                patientService.findById(patientId),
+                patientMapper.toDto(patientService.findById(patientId)),
                 HttpStatus.OK
         );
     }
