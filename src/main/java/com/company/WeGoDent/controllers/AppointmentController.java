@@ -20,8 +20,6 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @Autowired
-    private AppointmentMapper appointmentMapper;
 
     @PostMapping("")
     @ResponseBody
@@ -40,27 +38,7 @@ public class AppointmentController {
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/{appointmentId}/treatment-phase/{treatmentPhaseId}")
-    @ResponseBody
-    public ResponseEntity<Appointment> acceptAppointment(@PathVariable Long appointmentId,
-                                                         @PathVariable Long treatmentPhaseId){
-        return ResponseEntity.ok(
-                appointmentService.acceptAppointment(appointmentId,treatmentPhaseId)
-        );
-    }
 
-    @PutMapping("/treatment-phase/{treatmentPhaseId}")
-    @ResponseBody
-    public ResponseEntity<AppointmentDTO> scheduleAppointment(@RequestBody AppointmentDTO appointmentDTO,
-                                                           @PathVariable Long treatmentPhaseId){
-
-
-        Appointment appointment = appointmentService.scheduleAppointment(appointmentMapper.toEntity(appointmentDTO),treatmentPhaseId);
-        return ResponseEntity.ok(
-               appointmentMapper.toDto(appointment)
-        );
-
-    }
 
 
 

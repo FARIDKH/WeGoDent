@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class DoctorDTO {
 
     public Long id;
-    public User doctorId;
+    public UserDTO userDTO;
     public String experience;
     public String language;
     public Double hourlyRate;

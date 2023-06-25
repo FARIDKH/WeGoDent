@@ -1,6 +1,7 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.dto.AppointmentDTO;
 import com.company.WeGoDent.dto.DoctorDTO;
 import com.company.WeGoDent.dto.PatientDTO;
 import com.company.WeGoDent.entity.Patient;
@@ -10,14 +11,17 @@ import com.company.WeGoDent.forms.TimeSlotForm;
 import com.company.WeGoDent.entity.Appointment;
 import com.company.WeGoDent.entity.Doctor;
 import com.company.WeGoDent.entity.DoctorAvailability;
+import com.company.WeGoDent.mapper.AppointmentMapper;
 import com.company.WeGoDent.mapper.DoctorMapper;
 import com.company.WeGoDent.mapper.PatientMapper;
+import com.company.WeGoDent.services.AppointmentService;
 import com.company.WeGoDent.services.DoctorAvailabilityService;
 import com.company.WeGoDent.services.DoctorService;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +43,12 @@ public class DoctorController {
     @Autowired
     private DoctorMapper doctorMapper;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
 
 
     @GetMapping
@@ -56,11 +66,33 @@ public class DoctorController {
         ));
     }
 
-    @PostMapping
+//    @PostMapping
+//    @ResponseBody
+//    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
+//        Doctor doctor = doctorService.createDoctor(doctorUserForm);
+//        return new ResponseEntity<>(doctor, HttpStatus.OK);
+//    }
+
+    @PutMapping("/appointment/{appointmentId}/treatment-phase/{treatmentPhaseId}")
     @ResponseBody
-    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
-        Doctor doctor = doctorService.createDoctor(doctorUserForm);
-        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    public ResponseEntity<Appointment> acceptAppointment(@PathVariable Long appointmentId,
+                                                         @PathVariable Long treatmentPhaseId){
+        return ResponseEntity.ok(
+                appointmentService.acceptAppointment(appointmentId,treatmentPhaseId)
+        );
+    }
+
+    @PutMapping("/treatment-phase/{treatmentPhaseId}")
+    @ResponseBody
+    public ResponseEntity<AppointmentDTO> scheduleAppointment(@RequestBody AppointmentDTO appointmentDTO,
+                                                              @PathVariable Long treatmentPhaseId){
+
+
+        Appointment appointment = appointmentService.scheduleAppointment(appointmentMapper.toEntity(appointmentDTO),treatmentPhaseId);
+        return ResponseEntity.ok(
+                appointmentMapper.toDto(appointment)
+        );
+
     }
 
     @ResponseBody

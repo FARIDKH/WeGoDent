@@ -10,7 +10,7 @@ public class PatientUserForm {
     public String phoneNumber;
 
     public String password;
-    public UserType userType = UserType.PATIENT;
+    public UserType userType = UserType.ROLE_PATIENT;
 
 
 }

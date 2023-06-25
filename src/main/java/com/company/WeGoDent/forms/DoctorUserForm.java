@@ -18,7 +18,7 @@ public class DoctorUserForm {
     public String email;
     public String phoneNumber;
     public String password;
-    public UserType userType = UserType.DOCTOR;
+    public UserType userType = UserType.ROLE_DOCTOR;
 
 
 

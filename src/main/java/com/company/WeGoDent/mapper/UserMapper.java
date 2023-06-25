@@ -4,6 +4,7 @@ import com.company.WeGoDent.dto.GroupRoleDTO;
 import com.company.WeGoDent.dto.UserDTO;
 import com.company.WeGoDent.entity.GroupRole;
 import com.company.WeGoDent.entity.User;
+import com.company.WeGoDent.mapper.helper.EntityMapper;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -15,10 +16,9 @@ import java.util.stream.Collectors;
 
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface UserMapper extends EntityMapper<UserDTO, User> {
 
-        UserDTO copyUserEntityToDto(User userEntity);
-        User copyUserDtoToEntity(UserDTO dto);
+
 
 
 }

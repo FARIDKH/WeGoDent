@@ -5,24 +5,19 @@ import com.company.WeGoDent.entity.Doctor;
 import com.company.WeGoDent.mapper.helper.EntityMapper;
 import com.company.WeGoDent.services.helpers.GeocodingService;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface DoctorMapper extends EntityMapper<DoctorDTO, Doctor> {
-    // Your other mapping methods...
 
-//    default Doctor fromId(Long id) {
-//        if (id == null) {
-//            return null;
-//        }
-//        Doctor doctor = new Doctor();
-//        doctor.setId(id);
-//        return doctor;
-//    }
+    @Override
+    @Mapping(source = "userDTO", target = "user")
+    Doctor toEntity(DoctorDTO dto);
 
-
-
-
+    @Override
+    @Mapping(source = "user", target = "userDTO")
+    DoctorDTO toDto(Doctor entity);
 }

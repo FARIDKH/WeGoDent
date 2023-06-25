@@ -69,11 +69,10 @@ public class PatientService {
     }
 
     public Patient findById(Long patientId){
-        if(patientRepository.existsById(patientId)){
-            Patient patient = patientRepository.findById(patientId).get();
-            return patient;
-        }
-        return null;
+        Patient selectedPatient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id" + patientId));
+
+        return selectedPatient;
     }
 
     public List<Appointment> listAppointments(Long patientId){

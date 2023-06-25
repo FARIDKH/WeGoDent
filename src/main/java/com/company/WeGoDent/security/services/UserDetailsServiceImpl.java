@@ -96,7 +96,7 @@ public class UserDetailsServiceImpl implements UserService {
 
     @Override
     public User createUserFromDTO(UserDTO dto) {
-        User user = userMapper.copyUserDtoToEntity(dto);
+        User user = userMapper.toEntity(dto);
         List<GroupRole> roles = dto.getRoleIds().stream()
                 .map(groupRoleRepository::findById) // Assuming that RoleRepository::findById returns Optional<GroupRole>
                 .filter(Optional::isPresent)
