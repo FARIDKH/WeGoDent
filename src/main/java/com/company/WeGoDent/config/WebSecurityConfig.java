@@ -99,6 +99,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/api-docs/**").permitAll()
                         .requestMatchers("/api/blogposts/**").permitAll()
                         .requestMatchers("/api/blogcategory/**").permitAll()
+                        .requestMatchers("/api/prescriptions/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers("/api/medicines/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers("/api/prescription_medicines/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers("/api/sick_leave_reports/**").hasAnyRole("DOCTOR", "ADMIN")
 //                        -------------------------
                         .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
                         .requestMatchers("/api/review/**").hasRole("PATIENT")
