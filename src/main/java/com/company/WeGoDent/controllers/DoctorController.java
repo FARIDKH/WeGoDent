@@ -66,12 +66,7 @@ public class DoctorController {
         ));
     }
 
-//    @PostMapping
-//    @ResponseBody
-//    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
-//        Doctor doctor = doctorService.createDoctor(doctorUserForm);
-//        return new ResponseEntity<>(doctor, HttpStatus.OK);
-//    }
+
 
     @PutMapping("/appointment/{appointmentId}/treatment-phase/{treatmentPhaseId}")
     @ResponseBody
