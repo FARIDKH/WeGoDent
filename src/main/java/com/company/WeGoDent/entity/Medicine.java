@@ -27,11 +27,4 @@ public class Medicine {
     @ManyToMany(mappedBy = "medicines")
     private List<Prescription> prescriptions;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
