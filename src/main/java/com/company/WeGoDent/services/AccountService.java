@@ -79,8 +79,7 @@ public class AccountService {
         GroupRole doctorRole = groupRoleRepository.findByCode(UserType.ROLE_DOCTOR);
         List<GroupRole> groupRoleList = new ArrayList<>();
         groupRoleList.add(doctorRole);
-        user.setRoles(groupRoleList);
-        System.out.println(doctorRole);
+        user.setRoles(groupRoleList);;
         String pwd = "changeYourPasswordDoctor2002!";
 
 

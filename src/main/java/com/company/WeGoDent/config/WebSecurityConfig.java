@@ -106,6 +106,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/sick_leave_reports/**").hasAnyRole("DOCTOR", "ADMIN")
 //                        -------------------------
                         .requestMatchers("/api/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/doctor/**").hasAnyRole("ADMIN")
                         .requestMatchers("/api/review/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers("/api/plan/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers("/api/inventories/**").hasAnyRole("DOCTOR", "ADMIN")

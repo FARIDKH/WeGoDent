@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api")
 public class AdminController {
 
 
@@ -25,12 +25,12 @@ public class AdminController {
     @Autowired
     private DoctorMapper doctorMapper;
 
-    @PostMapping("/doctor")
-    @ResponseBody
-    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
-        Doctor doctor = doctorService.createDoctor(doctorUserForm);
-        return new ResponseEntity<>(doctor, HttpStatus.OK);
-    }
+//    @PostMapping("/doctor")
+//    @ResponseBody
+//    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
+//        Doctor doctor = doctorService.createDoctor(doctorUserForm);
+//        return new ResponseEntity<>(doctor, HttpStatus.OK);
+//    }
 
 
 }

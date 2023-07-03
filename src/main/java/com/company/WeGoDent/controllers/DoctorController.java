@@ -50,6 +50,13 @@ public class DoctorController {
     private AppointmentMapper appointmentMapper;
 
 
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
+        Doctor doctor = doctorService.createDoctor(doctorUserForm);
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    }
+
 
     @GetMapping
     public List<Doctor> retrieveDoctorsByLocationAndType(

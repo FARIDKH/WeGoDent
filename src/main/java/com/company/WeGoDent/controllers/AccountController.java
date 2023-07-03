@@ -87,6 +87,8 @@ public class AccountController {
             return ResponseEntity.ok(doctorService.getDoctorByUserId(user.getId()));
         } else if(roles.contains("ROLE_PATIENT")){
             return ResponseEntity.ok(patientService.findByUserId(user.getId()));
+        } else if(roles.contains("ROLE_ADMIN")){
+            return ResponseEntity.ok(accountService.getUserById(user.getId()));
         }
         return null;
     }
