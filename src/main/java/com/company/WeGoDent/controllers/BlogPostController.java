@@ -27,25 +27,25 @@ public class BlogPostController {
     @GetMapping("/{blogPostId}")
     public ResponseEntity<BlogPostDTO> getById(@PathVariable Long blogPostId) {
         BlogPost blogPost = blogPostService.getById(blogPostId);
-        return ResponseEntity.ok(blogPostMapper.entityToDto(blogPost));
+        return ResponseEntity.ok(blogPostMapper.toDto(blogPost));
     }
 
     @GetMapping
     public ResponseEntity<List<BlogPostDTO>> getAll() {
         List<BlogPost> blogPosts = blogPostService.getAll();
-        return ResponseEntity.ok(blogPostMapper.entitiesToDtos(blogPosts));
+        return ResponseEntity.ok(blogPostMapper.toDto(blogPosts));
     }
 
     @PostMapping
     public ResponseEntity<BlogPostDTO> create(@RequestBody BlogPostDTO blogPostDto) {
-        BlogPost createdBlogPost = blogPostService.createBlogPost(blogPostMapper.dtoToEntity(blogPostDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(blogPostMapper.entityToDto(createdBlogPost));
+        BlogPost createdBlogPost = blogPostService.createBlogPost(blogPostMapper.toEntity(blogPostDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(blogPostMapper.toDto(createdBlogPost));
     }
 
     @PutMapping("/{blogPostId}")
     public ResponseEntity<BlogPostDTO> update(@PathVariable Long blogPostId, @RequestBody BlogPostDTO blogPostDto) {
-        BlogPost updatedBlogPost = blogPostService.updateBlogPost(blogPostId, blogPostMapper.dtoToEntity(blogPostDto));
-        return ResponseEntity.ok(blogPostMapper.entityToDto(updatedBlogPost));
+        BlogPost updatedBlogPost = blogPostService.updateBlogPost(blogPostId, blogPostMapper.toEntity(blogPostDto));
+        return ResponseEntity.ok(blogPostMapper.toDto(updatedBlogPost));
     }
 
     @DeleteMapping("/{blogPostId}")

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class BlogCategoryDTO {
+
     public String name;
     public Long id;
 

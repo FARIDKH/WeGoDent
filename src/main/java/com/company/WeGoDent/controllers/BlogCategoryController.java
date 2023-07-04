@@ -5,6 +5,7 @@ import com.company.WeGoDent.dto.BlogCategoryDTO;
 import com.company.WeGoDent.dto.BlogPostDTO;
 import com.company.WeGoDent.entity.BlogCategory;
 import com.company.WeGoDent.entity.BlogPost;
+import com.company.WeGoDent.mapper.BlogCategoryMapper;
 import com.company.WeGoDent.mapper.BlogMapper;
 import com.company.WeGoDent.services.BlogCategoryService;
 import jakarta.validation.Valid;
@@ -25,11 +26,14 @@ public class BlogCategoryController {
     @Autowired
     private BlogMapper blogMapper;
 
+    @Autowired
+    private BlogCategoryMapper blogCategoryMapper;
+
 
     @GetMapping("/{blogCategoryId}")
     private ResponseEntity<BlogCategoryDTO> getBlogCategoryByID(@PathVariable Long blogCategoryId){
         BlogCategory blogCategory = blogCategoryService.getBlogCategoryById(blogCategoryId);
-        BlogCategoryDTO blogCategoryDTO = blogMapper.entityToDto(blogCategory);
+        BlogCategoryDTO blogCategoryDTO = blogCategoryMapper.toDto(blogCategory);
 
         return ResponseEntity.ok(blogCategoryDTO);
 
@@ -38,7 +42,7 @@ public class BlogCategoryController {
     @GetMapping
     private ResponseEntity<List<BlogCategoryDTO>> getAllCategories(){
         List<BlogCategory> blogCategory = blogCategoryService.getAllBlogCategories();
-        List<BlogCategoryDTO> blogCategoryDTO = blogMapper.categoryEntitiesToDtos(blogCategory);
+        List<BlogCategoryDTO> blogCategoryDTO = blogCategoryMapper.toDto(blogCategory);
 
         return ResponseEntity.ok(blogCategoryDTO);
 
@@ -47,15 +51,15 @@ public class BlogCategoryController {
     @GetMapping("/{blogCategoryId}/posts")
     private ResponseEntity<List<BlogPostDTO>> getBlogPostByCategory(@PathVariable Long blogCategoryId){
         List<BlogPost> blogPostList = blogCategoryService.getAllPostByCategory(blogCategoryId);
-        List<BlogPostDTO> blogPostDTOList = blogMapper.entitiesToDtos(blogPostList);
+        List<BlogPostDTO> blogPostDTOList = blogMapper.toDto(blogPostList);
         return ResponseEntity.ok(blogPostDTOList);
     }
 
     @PostMapping
     private ResponseEntity<BlogCategoryDTO> createBlogCategory(@Valid @RequestBody BlogCategoryDTO blogCategoryDTO){
-        BlogCategory blogCategory = blogMapper.DtoToEntity(blogCategoryDTO);
+        BlogCategory blogCategory = blogCategoryMapper.toEntity(blogCategoryDTO);
         BlogCategory createdBC = blogCategoryService.createBlogCategory(blogCategory);
-        BlogCategoryDTO createdDTO = blogMapper.entityToDto(createdBC);
+        BlogCategoryDTO createdDTO = blogCategoryMapper.toDto(createdBC);
 
         return ResponseEntity.ok(createdDTO);
     }
@@ -64,9 +68,9 @@ public class BlogCategoryController {
     private ResponseEntity<BlogCategoryDTO> updateBlogCategory(
             @PathVariable Long blogCategoryId
             , @Valid @RequestBody BlogCategoryDTO blogCategoryDTO){
-        BlogCategory blogCategory = blogMapper.DtoToEntity(blogCategoryDTO);
+        BlogCategory blogCategory = blogCategoryMapper.toEntity(blogCategoryDTO);
         BlogCategory createdBC = blogCategoryService.updateBlogCategory(blogCategoryId,blogCategory);
-        BlogCategoryDTO createdDTO = blogMapper.entityToDto(createdBC);
+        BlogCategoryDTO createdDTO = blogCategoryMapper.toDto(createdBC);
 
         return ResponseEntity.ok(createdDTO);
     }
