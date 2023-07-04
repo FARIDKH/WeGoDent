@@ -4,6 +4,7 @@ import com.company.WeGoDent.dto.BlogCategoryDTO;
 import com.company.WeGoDent.dto.BlogPostDTO;
 import com.company.WeGoDent.entity.BlogCategory;
 import com.company.WeGoDent.entity.BlogPost;
+import com.company.WeGoDent.mapper.helper.EntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -15,47 +16,44 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = UserMapper.class)
-public interface BlogMapper {
+@Mapper(componentModel = "spring", uses = {UserMapper.class, BlogCategoryMapper.class} )
+public interface BlogMapper extends EntityMapper<BlogPostDTO, BlogPost> {
 
 
 
-    BlogCategoryDTO entityToDto(BlogCategory blogCategory);
-    BlogCategory DtoToEntity(BlogCategoryDTO blogCategoryDTO);
 
 
 
 
     @Mapping(source = "author.id", target = "authorId")
-    @Mapping(target = "categoryIds", ignore = true)
+    @Mapping(source = "categories", target = "blogCategoryDTOS")
 
-    BlogPostDTO entityToDto(BlogPost blogPost);
-    @InheritInverseConfiguration
-    @Mapping(target = "categories", ignore = true)
-
-    BlogPost dtoToEntity(BlogPostDTO blogPostDto);
-
-    List<BlogPostDTO> entitiesToDtos(List<BlogPost> blogPosts);
-    List<BlogPost> dtosToEntities(List<BlogPostDTO> blogPostDtos);
+    BlogPostDTO toDto(BlogPost blogPost);
 
 
-    List<BlogCategoryDTO> categoryEntitiesToDtos(List<BlogCategory> blogPosts);
-    List<BlogCategory> dtosToCategoryEntities(List<BlogCategoryDTO> blogPostDtos);
+    @Mapping(source = "authorId", target = "author.id")
+    @Mapping(source = "blogCategoryDTOS", target = "categories")
+    BlogPost toEntity(BlogPostDTO blogPostDto);
 
 
 
-    @AfterMapping
-    default void mapCategoryIdsToEntities(BlogPostDTO blogPostDto, @MappingTarget BlogPost blogPost) {
-        if (blogPostDto.getCategoryIds() != null) {
-            Set<BlogCategory> categories = blogPostDto.getCategoryIds().stream()
-                    .map(id -> {
-                        BlogCategory category = new BlogCategory();
-                        category.setId(id);
-                        return category;
-                    })
-                    .collect(Collectors.toSet());
-            blogPost.setCategories(categories);
-        }
-    }
+//    List<BlogCategoryDTO> categoryEntitiesToDtos(List<BlogCategory> blogPosts);
+//    List<BlogCategory> dtosToCategoryEntities(List<BlogCategoryDTO> blogPostDtos);
+//
+//
+//
+//    @AfterMapping
+//    default void mapCategoryIdsToEntities(BlogPostDTO blogPostDto, @MappingTarget BlogPost blogPost) {
+//        if (blogPostDto.getCategoryIds() != null) {
+//            Set<BlogCategory> categories = blogPostDto.getCategoryIds().stream()
+//                    .map(id -> {
+//                        BlogCategory category = new BlogCategory();
+//                        category.setId(id);
+//                        return category;
+//                    })
+//                    .collect(Collectors.toSet());
+//            blogPost.setCategories(categories);
+//        }
+//    }
 
 }

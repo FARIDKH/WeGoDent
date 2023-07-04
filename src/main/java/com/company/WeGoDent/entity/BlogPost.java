@@ -1,12 +1,15 @@
 package com.company.WeGoDent.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "blog_posts")
+@Data
 public class BlogPost {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +20,7 @@ public class BlogPost {
     private User author;
 
     @ManyToMany
-    private Set<BlogCategory> categories;
+    private List<BlogCategory> categories;
 
     private String title;
 
@@ -29,48 +32,8 @@ public class BlogPost {
         this.author = author;
     }
 
-    public Set<BlogCategory> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<BlogCategory> categories) {
-        this.categories = categories;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getPostedAt() {
-        return postedAt;
-    }
-
-    public void setPostedAt(Date postedAt) {
-        this.postedAt = postedAt;
-    }
 
     private String content;
     private Date postedAt;
 
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
