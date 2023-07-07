@@ -19,4 +19,16 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", uses = {GroupRoleMapper.class})
 public interface UserMapper extends EntityMapper<UserDTO, User> {
 
+    @Override
+    @Mapping(source = "roles", target = "roleIds")
+    UserDTO toDto(User entity);
+
+
+
+    @Override
+    @Mapping(source = "roleIds", target = "roles")
+    User toEntity(UserDTO dto);
+
+
+
 }

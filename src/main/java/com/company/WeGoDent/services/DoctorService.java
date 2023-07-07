@@ -1,6 +1,7 @@
 package com.company.WeGoDent.services;
 
 
+import com.company.WeGoDent.dto.DoctorDTO;
 import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.enums.DoctorType;
 import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
@@ -33,9 +34,9 @@ public class DoctorService {
     private GeocodingService geocodingService;
 
 
-    public Doctor createDoctor(DoctorUserForm doctorForm){
+    public Doctor createDoctor(Doctor doctorForm){
         Doctor doctor = new Doctor();
-        User user = accountService.createDoctorUser(doctorForm);
+        User user = accountService.createDoctorUser(doctorForm.getUser());
 
         if(user != null){
             doctor.setUser(user);
@@ -70,19 +71,19 @@ public class DoctorService {
 
 
 
-    public Doctor updateDoctor(Long doctorId, DoctorUserForm doctorForm){
+    public Doctor updateDoctor(Long doctorId, Doctor doctorForm){
         if(!doctorRepository.existsById(doctorId)){
             return null;
         }
         Doctor doctor = doctorRepository.findById(doctorId).get();
 
-        UserForm userForm = new UserForm();
-        userForm.email = doctorForm.email;
-        userForm.firstName = doctorForm.firstName;
-        userForm.lastName = doctorForm.lastName;
-        userForm.phoneNumber = doctorForm.phoneNumber;
-        userForm.password = doctorForm.password;
-        accountService.updateUser(doctor.getUser().getId(),userForm);
+//        UserForm userForm = new UserForm();
+//        userForm.email = doctorForm.email;
+//        userForm.firstName = doctorForm.firstName;
+//        userForm.lastName = doctorForm.lastName;
+//        userForm.phoneNumber = doctorForm.phoneNumber;
+//        userForm.password = doctorForm.password;
+        accountService.updateUser(doctor.getUser().getId(),doctorForm.getUser());
         getDoctorForm(doctorForm, doctor);
 
 
@@ -90,15 +91,16 @@ public class DoctorService {
         return doctor;
     }
 
-    private void getDoctorForm(DoctorUserForm doctorForm, Doctor doctor) {
-        doctor.setBiography(doctorForm.biography);
-        doctor.setExperience(doctorForm.experience);
-        doctor.setHourlyRate(doctorForm.hourly_rate);
-        doctor.setLanguage(doctorForm.language);
+    private void getDoctorForm(Doctor doctorForm, Doctor doctor) {
+        doctor.setBiography(doctorForm.getBiography());
+        doctor.setExperience(doctorForm.getExperience());
+        doctor.setHourlyRate(doctorForm.getHourlyRate());
+        doctor.setLanguage(doctorForm.getLanguage());
         doctor.setOfficeLocation(
-                geocodingService.getPointObject(doctorForm.office_location)
+                geocodingService.getPointObject(doctorForm.getOfficeLocationName())
         );
-        doctor.setDoctorType(doctorForm.doctorType);
+        doctor.setOfficeLocationName(doctorForm.getOfficeLocationName());
+        doctor.setDoctorType(doctorForm.getDoctorType());
         doctorRepository.save(doctor);
     }
 
