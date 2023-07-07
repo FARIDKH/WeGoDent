@@ -1,12 +1,14 @@
 package com.company.WeGoDent.controllers;
 
 
+import com.company.WeGoDent.dto.AppointmentDTO;
 import com.company.WeGoDent.dto.PatientDTO;
 import com.company.WeGoDent.dto.PatientPlanDTO;
 import com.company.WeGoDent.entity.PatientPlan;
 import com.company.WeGoDent.forms.PatientUserForm;
 import com.company.WeGoDent.entity.Appointment;
 import com.company.WeGoDent.entity.Patient;
+import com.company.WeGoDent.mapper.AppointmentMapper;
 import com.company.WeGoDent.mapper.PatientMapper;
 import com.company.WeGoDent.mapper.PatientPlanMapper;
 import com.company.WeGoDent.services.PatientService;
@@ -33,18 +35,25 @@ public class PatientController {
     @Autowired
     private PatientMapper patientMapper;
 
+
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
     @ResponseBody
     @PostMapping
-    public ResponseEntity<Patient> createPatient(@RequestBody  PatientUserForm patientUserForm){
+    public ResponseEntity<PatientDTO> createPatient(@RequestBody  PatientDTO patientUserForm){
         Patient patient = patientService.createPatient(patientUserForm);
-        return new ResponseEntity<>(patient, HttpStatus.OK);
+        return new ResponseEntity<>(
+                patientMapper.toDto(patient)
+                , HttpStatus.OK);
     }
 
     @ResponseBody
     @PutMapping("/{patientId}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable  Long patientId,@RequestBody PatientUserForm patientUserForm){
-        Patient patient = patientService.updatePatient(patientId,patientUserForm);
-        return new ResponseEntity<>(patient, HttpStatus.OK);
+    public ResponseEntity<PatientDTO> updatePatient(@PathVariable  Long patientId,@RequestBody PatientDTO patientUserForm){
+        Patient patient = patientService.updatePatient(patientId,
+                patientMapper.toEntity(patientUserForm));
+        return new ResponseEntity<>(patientMapper.toDto(patient), HttpStatus.OK);
     }
 
     @ResponseBody
@@ -69,9 +78,9 @@ public class PatientController {
 
     @ResponseBody
     @GetMapping("/{patientId}/appointments")
-    public ResponseEntity<List<Appointment>> listAppointments(@PathVariable Long patientId){
+    public ResponseEntity<List<AppointmentDTO>> listAppointments(@PathVariable Long patientId){
         return new ResponseEntity<>(
-                patientService.listAppointments(patientId),
+                appointmentMapper.toDto(patientService.listAppointments(patientId)),
                 HttpStatus.OK
         );
     }

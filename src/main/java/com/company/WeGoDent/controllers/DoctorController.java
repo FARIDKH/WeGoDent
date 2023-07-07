@@ -52,9 +52,9 @@ public class DoctorController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<Doctor> createDoctor(@RequestBody DoctorUserForm doctorUserForm){
-        Doctor doctor = doctorService.createDoctor(doctorUserForm);
-        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    public ResponseEntity<DoctorDTO> createDoctor(@RequestBody DoctorDTO doctorDTO){
+        Doctor doctor = doctorService.createDoctor(doctorMapper.toEntity(doctorDTO));
+        return new ResponseEntity<>(doctorMapper.toDto(doctor), HttpStatus.OK);
     }
 
 
@@ -77,10 +77,12 @@ public class DoctorController {
 
     @PutMapping("/appointment/{appointmentId}/treatment-phase/{treatmentPhaseId}")
     @ResponseBody
-    public ResponseEntity<Appointment> acceptAppointment(@PathVariable Long appointmentId,
+    public ResponseEntity<AppointmentDTO> acceptAppointment(@PathVariable Long appointmentId,
                                                          @PathVariable Long treatmentPhaseId){
         return ResponseEntity.ok(
-                appointmentService.acceptAppointment(appointmentId,treatmentPhaseId)
+                appointmentMapper.toDto(
+                        appointmentService.acceptAppointment(appointmentId,treatmentPhaseId)
+                )
         );
     }
 
@@ -99,9 +101,9 @@ public class DoctorController {
 
     @ResponseBody
     @PutMapping("/{doctorId}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorUserForm doctorUserForm){
-        Doctor doctor = doctorService.updateDoctor(doctorId,doctorUserForm);
-        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    public ResponseEntity<DoctorDTO> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorDTO doctorDTO){
+        Doctor doctor = doctorService.updateDoctor(doctorId,doctorMapper.toEntity(doctorDTO));
+        return new ResponseEntity<>(doctorMapper.toDto(doctor), HttpStatus.OK);
     }
 
     @ResponseBody
@@ -117,9 +119,11 @@ public class DoctorController {
 
     @ResponseBody
     @GetMapping("/{doctorId}/appointments")
-    public ResponseEntity<List<Appointment>> getAppointments(@PathVariable Long doctorId){
+    public ResponseEntity<List<AppointmentDTO>> getAppointments(@PathVariable Long doctorId){
         List<Appointment> appointments = doctorService.listAppointments(doctorId);
-        return new ResponseEntity<>(appointments,HttpStatus.OK);
+        return new ResponseEntity<>(
+                appointmentMapper.toDto(appointments)
+                ,HttpStatus.OK);
     }
 
     @PostMapping("/{doctorId}/availability")

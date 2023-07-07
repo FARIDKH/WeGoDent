@@ -105,6 +105,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/prescription_medicines/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers("/api/sick_leave_reports/**").hasAnyRole("DOCTOR", "ADMIN")
 //                        -------------------------
+
+                        .requestMatchers(HttpMethod.GET,"/api/doctor").permitAll()
                         .requestMatchers("/api/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers(HttpMethod.POST,"/api/doctor/**").hasAnyRole("ADMIN")
                         .requestMatchers("/api/review/**").hasAnyRole("DOCTOR", "ADMIN")

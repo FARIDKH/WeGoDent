@@ -20,20 +20,25 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
 
     @PostMapping("")
     @ResponseBody
-    public ResponseEntity<Appointment> create(@RequestBody AppointmentForm appointmentForm){
+    public ResponseEntity<AppointmentDTO> create(@RequestBody AppointmentForm appointmentForm){
         Appointment appointment = appointmentService.createAppointment(appointmentForm);
-        return new ResponseEntity<>(appointment, HttpStatus.OK);
+        return new ResponseEntity<>(
+                appointmentMapper.toDto(appointment)
+                , HttpStatus.OK);
     }
 
     @PutMapping("/{appointmentId}")
     @ResponseBody
-    public ResponseEntity<Appointment> update(@PathVariable Long appointmentId,@RequestBody AppointmentForm appointmentForm){
+    public ResponseEntity<AppointmentDTO> update(@PathVariable Long appointmentId,@RequestBody AppointmentForm appointmentForm){
         Appointment appointment = appointmentService.updateAppointment(appointmentId,appointmentForm);
         if(appointment != null){
-            return new ResponseEntity<>(appointment, HttpStatus.OK);
+            return new ResponseEntity<>( appointmentMapper.toDto(appointment), HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }

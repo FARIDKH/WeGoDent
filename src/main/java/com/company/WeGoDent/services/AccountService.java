@@ -1,6 +1,7 @@
 package com.company.WeGoDent.services;
 
 
+import com.company.WeGoDent.dto.UserDTO;
 import com.company.WeGoDent.entity.Token;
 import com.company.WeGoDent.enums.TokenType;
 import com.company.WeGoDent.forms.DoctorUserForm;
@@ -71,9 +72,9 @@ public class AccountService {
         return null;
     }
 
-    public User createDoctorUser(DoctorUserForm userForm){
+    public User createDoctorUser(User userForm){
         User user = new User();
-        user.setEmail(userForm.email);
+        user.setEmail(userForm.getEmail());
 
 
         GroupRole doctorRole = groupRoleRepository.findByCode(UserType.ROLE_DOCTOR);
@@ -83,7 +84,7 @@ public class AccountService {
         String pwd = "changeYourPasswordDoctor2002!";
 
 
-        String username = userForm.firstName + userForm.lastName;
+        String username = userForm.getFirstName() + userForm.getLastName();
         Random random = new Random();
         int number = random.nextInt(90000000) + 10000000;
         String text = username + number;
@@ -92,9 +93,9 @@ public class AccountService {
 
         user.setPassword(passwordEncoder.encode(pwd));
 
-        user.setLastName(userForm.lastName);
-        user.setFirstName(userForm.firstName);
-        user.setPhoneNumber(userForm.phoneNumber);
+        user.setLastName(userForm.getLastName());
+        user.setFirstName(userForm.getFirstName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
 
         return userService.save(user);
     }
@@ -175,9 +176,9 @@ public class AccountService {
                 roles));
     }
 
-    public User createPatientUser(PatientUserForm userForm){
+    public User createPatientUser(UserDTO userForm){
         User user = new User();
-        user.setEmail(userForm.email);
+        user.setEmail(userForm.getEmail());
 
         GroupRole patientRole = groupRoleRepository.findByCode(UserType.ROLE_PATIENT);
         List<GroupRole> groupRoleList = new ArrayList<>();
@@ -186,7 +187,7 @@ public class AccountService {
 
         String pwd = "changeYourPasswordPatient2002!";
 
-        String username = userForm.firstName + userForm.lastName;
+        String username = userForm.getFirstName() + userForm.getLastName();
         Random random = new Random();
         int number = random.nextInt(90000000) + 10000000;
         String text = username + number;
@@ -197,9 +198,9 @@ public class AccountService {
 
         user.setPassword(passwordEncoder.encode(pwd));
 
-        user.setLastName(userForm.lastName);
-        user.setFirstName(userForm.firstName);
-        user.setPhoneNumber(userForm.phoneNumber);
+        user.setLastName(userForm.getFirstName());
+        user.setFirstName(userForm.getLastName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
 
         User createdUser =  userService.save(user);
         var jwtToken = jwtUtils.generateToken(createdUser);
@@ -271,14 +272,14 @@ public class AccountService {
 
 
 
-    public User updateUser(Long id,UserForm userForm){
+    public User updateUser(Long id,User userForm){
         if(userRepository.existsById(id)){
             User user = userRepository.findById(id).get();
-            user.setPhoneNumber(userForm.phoneNumber);
-            user.setPassword(userForm.password);
-            user.setEmail(userForm.email);
-            user.setFirstName(userForm.firstName);
-            user.setLastName(userForm.lastName);
+            user.setPhoneNumber(userForm.getPhoneNumber());
+            user.setPassword(userForm.getPassword());
+            user.setEmail(userForm.getEmail());
+            user.setFirstName(userForm.getFirstName());
+            user.setLastName(userForm.getLastName());
 
             return user;
         }

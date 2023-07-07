@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Data
 @Builder
@@ -13,14 +15,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientDTO {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-
-    private String password;
+//    private String firstName;
+//    private String lastName;
+//    private String email;
+//    private String phoneNumber;
+//
+//    private String password;
     private UserDTO userDTO;
-    private UserType userType = UserType.ROLE_PATIENT;
+    private LocalDateTime dateOfBirth;
+    private String allergicReactions;
+    private String specificIllness;
+
+
+//    private UserType userType = UserType.ROLE_PATIENT;
 
 
 

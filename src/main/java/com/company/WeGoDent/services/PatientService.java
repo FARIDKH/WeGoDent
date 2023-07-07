@@ -1,5 +1,6 @@
 package com.company.WeGoDent.services;
 
+import com.company.WeGoDent.dto.PatientDTO;
 import com.company.WeGoDent.entity.*;
 import com.company.WeGoDent.exceptions.DuplicateException.ResourceNotFoundException;
 import com.company.WeGoDent.forms.PatientUserForm;
@@ -22,11 +23,11 @@ public class PatientService {
     @Autowired
     private AccountService accountService;
 
-    public Patient createPatient(PatientUserForm patientUserForm){
+    public Patient createPatient(PatientDTO patientUserForm){
 
         Patient patient = new Patient();
 
-        User user = accountService.createPatientUser(patientUserForm);
+        User user = accountService.createPatientUser(patientUserForm.getUserDTO());
 
         if(user != null){
 
@@ -44,16 +45,10 @@ public class PatientService {
     }
 
 
-    public Patient updatePatient(Long id,PatientUserForm patientUserForm){
+    public Patient updatePatient(Long id,Patient patientUserForm){
         if(patientRepository.findById(id).isPresent()){
             Patient patient = patientRepository.findById(id).get();
-            UserForm userForm = new UserForm();
-            userForm.email = patientUserForm.email;
-            userForm.firstName = patientUserForm.firstName;
-            userForm.lastName = patientUserForm.lastName;
-            userForm.phoneNumber = patientUserForm.phoneNumber;
-            userForm.password = patientUserForm.password;
-            accountService.updateUser(patient.getUser().getId(),userForm);
+            accountService.updateUser(patient.getUser().getId(),patientUserForm.getUser());
         }
         return null;
     }
