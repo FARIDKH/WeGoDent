@@ -14,7 +14,7 @@ import lombok.*;
 @ToString
 public class GroupRoleDTO {
 
-    private long id;
+    private Long id;
 
     @NotNull
     @NotBlank(message = "Code role is mandatory")

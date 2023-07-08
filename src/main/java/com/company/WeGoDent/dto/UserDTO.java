@@ -38,6 +38,8 @@ public class UserDTO {
 
     private String phoneNumber;
 
+    private Long id;
+
 
 
 
