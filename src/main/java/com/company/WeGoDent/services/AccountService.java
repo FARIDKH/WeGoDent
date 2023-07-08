@@ -276,7 +276,7 @@ public class AccountService {
         if(userRepository.existsById(id)){
             User user = userRepository.findById(id).get();
             user.setPhoneNumber(userForm.getPhoneNumber());
-            user.setPassword(userForm.getPassword());
+            user.setPassword(passwordEncoder.encode(userForm.getPassword()));
             user.setEmail(userForm.getEmail());
             user.setFirstName(userForm.getFirstName());
             user.setLastName(userForm.getLastName());

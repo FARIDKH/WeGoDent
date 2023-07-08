@@ -100,7 +100,7 @@ public class DoctorController {
     }
 
     @ResponseBody
-    @PutMapping("/{doctorId}")
+    @PatchMapping("/{doctorId}")
     public ResponseEntity<DoctorDTO> updateDoctor(@PathVariable Long doctorId, @RequestBody DoctorDTO doctorDTO){
         Doctor doctor = doctorService.updateDoctor(doctorId,doctorMapper.toEntity(doctorDTO));
         return new ResponseEntity<>(doctorMapper.toDto(doctor), HttpStatus.OK);
