@@ -76,13 +76,6 @@ public class DoctorService {
             return null;
         }
         Doctor doctor = doctorRepository.findById(doctorId).get();
-
-//        UserForm userForm = new UserForm();
-//        userForm.email = doctorForm.email;
-//        userForm.firstName = doctorForm.firstName;
-//        userForm.lastName = doctorForm.lastName;
-//        userForm.phoneNumber = doctorForm.phoneNumber;
-//        userForm.password = doctorForm.password;
         accountService.updateUser(doctor.getUser().getId(),doctorForm.getUser());
         getDoctorForm(doctorForm, doctor);
 
