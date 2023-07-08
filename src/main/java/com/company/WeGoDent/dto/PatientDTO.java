@@ -21,6 +21,7 @@ public class PatientDTO {
 //    private String phoneNumber;
 //
 //    private String password;
+    private Long id;
     private UserDTO userDTO;
     private LocalDateTime dateOfBirth;
     private String allergicReactions;

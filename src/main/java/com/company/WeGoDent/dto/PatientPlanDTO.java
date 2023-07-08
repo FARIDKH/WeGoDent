@@ -21,7 +21,7 @@ public class PatientPlanDTO {
 
 
 
-    private int id;
+    private Long id;
 
 
 
