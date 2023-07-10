@@ -27,5 +27,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Doctor findByUserId(@Param("userId") Long userId);
 
 
+
+
 }
 
