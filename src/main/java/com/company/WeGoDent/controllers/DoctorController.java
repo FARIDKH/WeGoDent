@@ -59,11 +59,11 @@ public class DoctorController {
 
 
     @GetMapping
-    public List<Doctor> retrieveDoctorsByLocationAndType(
+    public List<DoctorDTO> retrieveDoctorsByLocationAndType(
             @RequestParam("doctorType") DoctorType doctorType,
             @RequestParam("officeLocation") String officeLocation) {
 
-        return doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation);
+        return doctorMapper.toDto(doctorService.retrieveDoctorsByLocationAndType(doctorType, officeLocation));
     }
 
     @GetMapping("/{doctorId}")
