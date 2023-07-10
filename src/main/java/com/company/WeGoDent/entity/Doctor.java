@@ -55,6 +55,9 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<Inventory> inventories;
 
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<DoctorAvailability> doctorAvailabilities;
+
 
 
 }

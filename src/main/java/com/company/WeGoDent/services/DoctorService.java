@@ -54,15 +54,20 @@ public class DoctorService {
 
     public List<Doctor> retrieveDoctorsByLocationAndType(DoctorType doctorType,
                                                          String officeLocation){
+        List<Doctor> doctorList = doctorRepository.findAll();
 
-        GeoLocationInformation info = geocodingService.getLatLongObject(officeLocation);
+        if(officeLocation != null){
+            GeoLocationInformation info = geocodingService.getLatLongObject(officeLocation);
 
-        System.out.print(info.toString());
-        System.out.println(doctorType);
-        System.out.println(officeLocation);
+            System.out.print(info.toString());
+            System.out.println(doctorType);
+            System.out.println(officeLocation);
 
 
-        List<Doctor> doctorList = doctorRepository.findNearby(doctorType.ordinal(), info.getLongitude(), info.getLatitude(), 20);
+            doctorList = doctorRepository.findNearby(doctorType.ordinal(), info.getLongitude(), info.getLatitude(), 20);
+
+        }
+
 
         return doctorList;
     }

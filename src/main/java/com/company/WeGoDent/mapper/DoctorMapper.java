@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, DoctorAvailabilityMapper.class})
 public interface DoctorMapper extends EntityMapper<DoctorDTO, Doctor> {
 
     @Override
     @Mapping(source = "userDTO", target = "user")
+    @Mapping(source = "doctorAvailabilityDTOList", target = "doctorAvailabilities")
     Doctor toEntity(DoctorDTO dto);
 
     @Override
     @Mapping(source = "user", target = "userDTO")
+    @Mapping(source = "doctorAvailabilities", target = "doctorAvailabilityDTOList")
     DoctorDTO toDto(Doctor entity);
 }
